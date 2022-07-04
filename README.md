@@ -17,4 +17,6 @@ Thank you to Professor Laura Ray for her mentorship with the project.  Additiona
 Cohen, G. (2022). Gooaall!!!: Why we built a neuromorphic robot to play Foosball. IEEE Spectrum, 59(3), 44–50. https://doi.org/10.1109/mspec.2022.9729948
 Hollingshead, T. (2019, August 12). BYU-created a.i.-powered foosball table goes head to head with humans. BYU News. Retrieved April 11, 2022, from https://news.byu.edu/news/byu-created-ai-powered-foosball-table-goes-head-head-humans
 
-Janssen, R., Verrijt, M., de Best, J., & van de Molengraft, R. (2012). Ball localization and tracking in a highly dynamic table soccer environment. Mechatronics, 22(4), 503–514. https://doi.org/10.1016/j.mechatronics.2012.02.009 Oberhaus, D. (2016, August 20). This robot will kick your ass at Foosball. VICE. Retrieved April 11, 2022, from https://www.vice.com/en/article/yp355k/foosball-robot
+Janssen, R., Verrijt, M., de Best, J., & van de Molengraft, R. (2012). Ball localization and tracking in a highly dynamic table soccer environment. Mechatronics, 22(4), 503–514. https://doi.org/10.1016/j.mechatronics.2012.02.009 
+
+Oberhaus, D. (2016, August 20). This robot will kick your ass at Foosball. VICE. Retrieved April 11, 2022, from https://www.vice.com/en/article/yp355k/foosball-robot
