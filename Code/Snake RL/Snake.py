@@ -47,6 +47,30 @@ class SnakeEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
         
         self.steps_beyond_terminated = None
 
+    def step(self, action):
+        assert self.snake_pos is not None, "Call reset before using step method"
+
+        board = np.zeros((self.height, self.width), dtype=np.float32)
+        match action:
+            case 0:
+                move = np.array([0, 1], dtype=np.float32)
+            case 1:
+                move = np.array([-1, 0], dtype=np.float32)
+            case 2:
+                move = np.array([0, -1], dtype=np.float32)
+            case 3:
+                move = np.array([1, 0], dtype=np.float32)
+            case _:
+                move = np.array([0, 1], dtype=np.float32)
+        
+        
+        for i, e in reversed(list(enumerate(self.snake_pos))):
+            if (i != 0):
+                self.snake_pos[i] = self.snake_pos[i-1]
+        
+        self.snake_pos[0] = np.add(self.snake_pos[0], move)
+
+
 
 
 Episode = namedtuple('Episode', field_names=['reward', 'steps'])
