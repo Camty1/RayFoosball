@@ -1,3 +1,4 @@
-[submodule "Code/teensy_docker"]
-	path = Code/teensy_docker
+
+[submodule "Code/Teensy"]
+	path = Code/Teensy
 	url = https://github.com/knickish/teensy_docker
