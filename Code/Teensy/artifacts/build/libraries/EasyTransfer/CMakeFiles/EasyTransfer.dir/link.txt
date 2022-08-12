@@ -1,0 +1,1 @@
+/usr/bin/ar qc libEasyTransfer.a  CMakeFiles/EasyTransfer.dir/EasyTransfer.cpp.obj

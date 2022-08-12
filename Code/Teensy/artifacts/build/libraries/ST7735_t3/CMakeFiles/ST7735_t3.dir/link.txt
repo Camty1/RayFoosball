@@ -1,0 +1,1 @@
+/usr/bin/ar qc libST7735_t3.a  CMakeFiles/ST7735_t3.dir/ST7735_t3.cpp.obj CMakeFiles/ST7735_t3.dir/ST7789_t3.cpp.obj CMakeFiles/ST7735_t3.dir/glcdfont.c.obj CMakeFiles/ST7735_t3.dir/st7735_t3_font_Arial.c.obj CMakeFiles/ST7735_t3.dir/st7735_t3_font_ComicSansMS.c.obj

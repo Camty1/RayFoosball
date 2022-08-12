@@ -1,0 +1,3 @@
+file(REMOVE_RECURSE
+  "libDS1307RTC.a"
+)

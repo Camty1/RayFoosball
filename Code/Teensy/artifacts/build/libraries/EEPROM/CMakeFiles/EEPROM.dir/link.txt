@@ -1,0 +1,1 @@
+/usr/bin/ar qc libEEPROM.a  CMakeFiles/EEPROM.dir/EEPROM.cpp.obj

@@ -1,0 +1,1 @@
+/usr/bin/ar qc libTalkie.a  CMakeFiles/Talkie.dir/Talkie.cpp.obj

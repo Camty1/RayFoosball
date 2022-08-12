@@ -1,11 +1,15 @@
 #include "Arduino.h"
 #include <cmath>
 #include <vector>
+#include <stdlib.h>
+#include <random>
+//#include <Eigen/Dense>
 
 #define HWSERIAL Serial1
 #define PWMFORWARD 13
 #define PWMBACKWARD 15
 #define REVERSE 7
+#define TSUS 20000
 
 // MotorCommands contain the PWM value [0, 256] for both the forward and backward reference input.
 // NOTE Either forward or backward should be non-zero, not both at the same time.
@@ -14,13 +18,36 @@ struct MotorCommand {
 	int bwd;
 };
 
-// Used to track current state, currently just has time step, but can be used for much more down the road.
-struct State {
-	int k;
-};
+// Function definitions
+MotorCommand generateCommand(double in);
+void driveMotor(MotorCommand cmd, int forwardPin, int backwardPin);
+double calcSine(double omega, double deltaT, int k);
+double calcSineHz(double f, double deltaT, int k);
+double getRandomInput();
+int readIntInput();
+void inputMotorControl();
+void sineMotorControl(double omega, int us);
+double randMotorControl();
 
-State state;
-state.k = 0;
+// Random number generator
+std::default_random_engine randGen;
+std::normal_distribution<double> distribution(0.0, 1/3.0);
+
+// Interrupt timer and time step
+IntervalTimer timer;
+volatile int time = 0;
+void stepTime() {
+	time++;
+	double u = randMotorControl();
+	Serial.print(time);
+	Serial.print(", ");
+	Serial.println(u);
+}
+
+// Used to track current state, currently just has time step, but can be used for much more down the road.
+// struct State {
+// 	int k;
+// };
 
 // Takes a double in the range [-1, 1] and converts it to a MotorCommand. Returns stop command if input is invalid
 MotorCommand generateCommand(double in) {
@@ -30,18 +57,20 @@ MotorCommand generateCommand(double in) {
 	cmd.bwd = 0;
 
 	// Invalid input
-	if (abs(in)  1) {
-		return cmd;
+	if (abs(in) > 1) {
+		in = in/abs(in);
 	}
 	
 	// Take input and converts it to MotorCommand, changing whether forward or backward is zero depending on the sign of the input
 	cmd.fwd = (in > 0) ? (int) round(256 * in) : 0;
 	cmd.bwd = (in < 0) ? (int) round(-256 * in) : 0;
+
+	return cmd;
 }
 
 // Takes a MotorCommand and PWM pins to drive the motor for the command.
 // NOTE Does not check to see if one of the directions is 0
-int driveMotor(MotorCommand cmd, int forwardPin, int backwardPin) {
+void driveMotor(MotorCommand cmd, int forwardPin, int backwardPin) {
 	analogWrite(forwardPin, cmd.fwd);
 	analogWrite(backwardPin, cmd.bwd);
 }
@@ -54,6 +83,11 @@ double calcSine(double omega, double deltaT, int k) {
 // Given a frequency (Hz), a step size, and a current step, outputs the value of a sine function.
 double calcSineHz(double f, double deltaT, int k) {
 	return sin(2 * M_PI * f * k * deltaT);
+}
+
+// Returns a normally distributed input around 0 with sigma = 1/6;
+double getRandomInput() {
+	return distribution(randGen);
 }
 
 // Reads from the USB Serial and outputs the integer given
@@ -78,17 +112,64 @@ int readIntInput() {
 	// Remove 'n'
 	values.pop_back();
 
-	// Calculate value by going through places, starting with the one's place (end of values vector)
+	// Initialize variables for value calculation
 	int value = 0;
 	int counter = 0;
+
+	// Handle negative inputs
+	int negative = values[0] == 45;
+
+	// Calculate value by going through places, starting with the one's place (end of values vector)
 	while (!values.empty()) {
 		int currentDigit = values.back() - 48;
 		// Make sure digit is valid (in range [0,9]) and then add digit  10^place to value.
-		value += (currentDigit = 0 && currentDigit = 9) ? currentDigit * (int) pow(10.0, (double) counter) : 0;
+		value += (currentDigit >= 0 && currentDigit <= 9) ? currentDigit * (int) pow(10.0, (double) counter) : 0;
 		values.pop_back();
 		counter++;
 	}
-	return value;
+	return !negative ? value : -value;
+}
+
+// Function to control motor based on user input
+void inputMotorControl() {
+
+	if (Serial.available()) {
+    	int value = readIntInput();
+		Serial.print("Calculated value: ");
+		Serial.println(value, DEC);
+		double norm = value/256;
+		MotorCommand cmd = generateCommand(norm);
+		driveMotor(cmd, PWMFORWARD, PWMBACKWARD);
+  	}
+}
+
+// Function to control motor with sine wave input
+void sineMotorControl(double omega, int us) {
+	// Copying of time step will get messed up if interrrupt occurs at same time, therefore no interrupt is called
+	noInterrupts();
+	int k = time;
+	interrupts();
+
+	// Get time step size from microseconds
+	double deltaT = us/1000000.0;
+	
+	// Calculate sin value
+	double value = calcSine(omega, deltaT, k);
+
+	// Drive motor
+	MotorCommand cmd = generateCommand(value);
+	driveMotor(cmd, PWMFORWARD, PWMBACKWARD);
+}
+
+// Function to control motor with random input (useful for SYS-ID)
+double randMotorControl() {
+	// Get random input for motor
+	double rand = getRandomInput();
+
+	// Drive motor
+	MotorCommand cmd = generateCommand(rand);
+	driveMotor(cmd, PWMFORWARD, PWMBACKWARD);
+	return rand;
 }
 
 // Called once at startup
@@ -101,33 +182,16 @@ void setup() {
 	HWSERIAL.begin(9600);
 	analogWrite(PWMFORWARD, 0);
 	analogWrite(PWMBACKWARD, 0);
+	timer.begin(stepTime, TSUS);
 }
 
 // Called every frame
 void loop() {
-	int reverse = 0;
-	if (digitalRead(REVERSE)) {
-		reverse = 1;
-	}
-
-	if (Serial.available()  0) {
-    	int value = readInput();
-		Serial.print(Calculated value );
-		Serial.println(value, DEC);
-		if (value =0 && value = 256) {
-			if (reverse) {
-				analogWrite(PWMFORWARD, 0);
-				analogWrite(PWMBACKWARD, value);
-			}
-			else {
-				analogWrite(PWMBACKWARD, 0);
-				analogWrite(PWMFORWARD, value);
-			}
-		}
-  	}
+	//inputMotorControl();
+	//sineMotorControl(.5 * M_PI * 2, TSUS);
 }
 
-int main() {
+int main(void) {
 	setup();
 	while (1) {
 		loop();

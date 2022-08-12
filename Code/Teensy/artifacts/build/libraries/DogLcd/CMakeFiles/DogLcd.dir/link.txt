@@ -1,0 +1,1 @@
+/usr/bin/ar qc libDogLcd.a  CMakeFiles/DogLcd.dir/DogLcd.cpp.obj

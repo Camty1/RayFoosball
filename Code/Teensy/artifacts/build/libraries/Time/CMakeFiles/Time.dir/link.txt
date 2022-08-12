@@ -1,0 +1,1 @@
+/usr/bin/ar qc libTime.a  CMakeFiles/Time.dir/DateStrings.cpp.obj CMakeFiles/Time.dir/Time.cpp.obj

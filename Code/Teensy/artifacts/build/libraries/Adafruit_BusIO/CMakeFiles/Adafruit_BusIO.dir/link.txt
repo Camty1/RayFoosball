@@ -1,0 +1,1 @@
+/usr/bin/ar qc libAdafruit_BusIO.a  CMakeFiles/Adafruit_BusIO.dir/Adafruit_BusIO_Register.cpp.obj CMakeFiles/Adafruit_BusIO.dir/Adafruit_I2CDevice.cpp.obj CMakeFiles/Adafruit_BusIO.dir/Adafruit_SPIDevice.cpp.obj

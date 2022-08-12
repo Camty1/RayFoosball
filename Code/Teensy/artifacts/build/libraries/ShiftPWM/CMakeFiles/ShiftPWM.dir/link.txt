@@ -1,0 +1,1 @@
+/usr/bin/ar qc libShiftPWM.a  CMakeFiles/ShiftPWM.dir/CShiftPWM.cpp.obj

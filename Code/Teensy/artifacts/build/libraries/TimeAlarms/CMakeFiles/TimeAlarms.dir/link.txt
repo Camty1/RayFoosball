@@ -1,0 +1,1 @@
+/usr/bin/ar qc libTimeAlarms.a  CMakeFiles/TimeAlarms.dir/TimeAlarms.cpp.obj

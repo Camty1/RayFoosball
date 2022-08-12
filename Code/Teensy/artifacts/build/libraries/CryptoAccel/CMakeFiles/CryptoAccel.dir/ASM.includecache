@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/teensyduino/libraries/CryptoAccel/src/mmcau_aes_functions.S
+
+/teensyduino/libraries/CryptoAccel/src/mmcau_des_functions.S
+
+/teensyduino/libraries/CryptoAccel/src/mmcau_md5_functions.S
+
+/teensyduino/libraries/CryptoAccel/src/mmcau_sha1_functions.S
+
+/teensyduino/libraries/CryptoAccel/src/mmcau_sha256_functions.S
+

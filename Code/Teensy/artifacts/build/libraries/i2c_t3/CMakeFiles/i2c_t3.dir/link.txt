@@ -1,0 +1,1 @@
+/usr/bin/ar qc libi2c_t3.a  CMakeFiles/i2c_t3.dir/i2c_t3.cpp.obj

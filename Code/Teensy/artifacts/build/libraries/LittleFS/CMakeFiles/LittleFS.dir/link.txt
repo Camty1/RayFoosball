@@ -1,0 +1,1 @@
+/usr/bin/ar qc libLittleFS.a  CMakeFiles/LittleFS.dir/src/LittleFS.cpp.obj CMakeFiles/LittleFS.dir/src/LittleFS_NAND.cpp.obj

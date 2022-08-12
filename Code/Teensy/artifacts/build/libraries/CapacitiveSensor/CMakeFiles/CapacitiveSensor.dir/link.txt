@@ -1,0 +1,1 @@
+/usr/bin/ar qc libCapacitiveSensor.a  CMakeFiles/CapacitiveSensor.dir/CapacitiveSensor.cpp.obj

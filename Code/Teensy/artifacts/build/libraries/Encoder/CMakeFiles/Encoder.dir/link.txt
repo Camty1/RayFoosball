@@ -1,0 +1,1 @@
+/usr/bin/ar qc libEncoder.a  CMakeFiles/Encoder.dir/Encoder.cpp.obj

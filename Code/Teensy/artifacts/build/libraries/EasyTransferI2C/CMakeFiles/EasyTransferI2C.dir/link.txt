@@ -1,0 +1,1 @@
+/usr/bin/ar qc libEasyTransferI2C.a  CMakeFiles/EasyTransferI2C.dir/EasyTransferI2C.cpp.obj

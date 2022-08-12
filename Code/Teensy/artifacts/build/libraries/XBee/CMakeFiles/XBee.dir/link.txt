@@ -1,0 +1,1 @@
+/usr/bin/ar qc libXBee.a  CMakeFiles/XBee.dir/XBee.cpp.obj

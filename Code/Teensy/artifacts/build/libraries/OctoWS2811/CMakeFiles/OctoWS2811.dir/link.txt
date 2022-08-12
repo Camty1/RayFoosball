@@ -1,0 +1,1 @@
+/usr/bin/ar qc libOctoWS2811.a  CMakeFiles/OctoWS2811.dir/OctoWS2811.cpp.obj CMakeFiles/OctoWS2811.dir/OctoWS2811_imxrt.cpp.obj

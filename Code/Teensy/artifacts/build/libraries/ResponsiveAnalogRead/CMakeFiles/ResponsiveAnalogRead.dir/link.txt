@@ -1,0 +1,1 @@
+/usr/bin/ar qc libResponsiveAnalogRead.a  CMakeFiles/ResponsiveAnalogRead.dir/src/ResponsiveAnalogRead.cpp.obj

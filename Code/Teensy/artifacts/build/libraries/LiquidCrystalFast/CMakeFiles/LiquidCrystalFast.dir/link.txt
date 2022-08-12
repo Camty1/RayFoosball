@@ -1,0 +1,1 @@
+/usr/bin/ar qc libLiquidCrystalFast.a  CMakeFiles/LiquidCrystalFast.dir/LiquidCrystalFast.cpp.obj

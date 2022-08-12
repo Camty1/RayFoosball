@@ -1,0 +1,1 @@
+/usr/bin/ar qc libSnooze.a  CMakeFiles/Snooze.dir/src/Snooze.cpp.obj CMakeFiles/Snooze.dir/src/SnoozeBlock.cpp.obj

@@ -1,0 +1,1 @@
+/usr/bin/ar qc libTimerOne.a  CMakeFiles/TimerOne.dir/TimerOne.cpp.obj

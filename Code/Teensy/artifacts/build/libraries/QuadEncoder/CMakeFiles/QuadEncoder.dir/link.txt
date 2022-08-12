@@ -1,0 +1,1 @@
+/usr/bin/ar qc libQuadEncoder.a  CMakeFiles/QuadEncoder.dir/QuadEncoder.cpp.obj

@@ -1,0 +1,1 @@
+/usr/bin/ar qc libPulsePosition.a  CMakeFiles/PulsePosition.dir/PulsePosition.cpp.obj CMakeFiles/PulsePosition.dir/PulsePositionIMXRT.cpp.obj

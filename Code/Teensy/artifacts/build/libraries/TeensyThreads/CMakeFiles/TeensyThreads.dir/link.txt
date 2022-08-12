@@ -1,0 +1,1 @@
+/usr/bin/ar qc libTeensyThreads.a  CMakeFiles/TeensyThreads.dir/TeensyThreads-asm.S.obj CMakeFiles/TeensyThreads.dir/TeensyThreads.cpp.obj

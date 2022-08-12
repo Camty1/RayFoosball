@@ -1,0 +1,1 @@
+/usr/bin/ar qc libCryptoAccel.a  CMakeFiles/CryptoAccel.dir/src/mmcau_aes_functions.S.obj CMakeFiles/CryptoAccel.dir/src/mmcau_des_functions.S.obj CMakeFiles/CryptoAccel.dir/src/mmcau_md5_functions.S.obj CMakeFiles/CryptoAccel.dir/src/mmcau_sha1_functions.S.obj CMakeFiles/CryptoAccel.dir/src/mmcau_sha256_functions.S.obj

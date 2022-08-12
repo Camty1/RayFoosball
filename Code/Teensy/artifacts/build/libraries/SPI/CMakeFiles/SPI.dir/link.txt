@@ -1,0 +1,1 @@
+/usr/bin/ar qc libSPI.a  CMakeFiles/SPI.dir/SPI.cpp.obj

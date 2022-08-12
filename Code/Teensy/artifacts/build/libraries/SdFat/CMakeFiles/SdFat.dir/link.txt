@@ -1,0 +1,1 @@
+/usr/bin/ar qc libSdFat.a  CMakeFiles/SdFat.dir/src/FreeStack.cpp.obj CMakeFiles/SdFat.dir/src/MinimumSerial.cpp.obj

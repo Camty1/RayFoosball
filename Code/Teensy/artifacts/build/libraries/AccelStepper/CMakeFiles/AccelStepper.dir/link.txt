@@ -1,0 +1,1 @@
+/usr/bin/ar qc libAccelStepper.a  CMakeFiles/AccelStepper.dir/src/AccelStepper.cpp.obj CMakeFiles/AccelStepper.dir/src/MultiStepper.cpp.obj

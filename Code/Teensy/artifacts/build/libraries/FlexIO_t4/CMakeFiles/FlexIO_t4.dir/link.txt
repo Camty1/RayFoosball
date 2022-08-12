@@ -1,0 +1,1 @@
+/usr/bin/ar qc libFlexIO_t4.a  CMakeFiles/FlexIO_t4.dir/src/FlexIOSPI.cpp.obj CMakeFiles/FlexIO_t4.dir/src/FlexIO_t4.cpp.obj CMakeFiles/FlexIO_t4.dir/src/FlexSerial.cpp.obj

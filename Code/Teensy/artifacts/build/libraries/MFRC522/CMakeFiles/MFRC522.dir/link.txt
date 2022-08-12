@@ -1,0 +1,1 @@
+/usr/bin/ar qc libMFRC522.a  CMakeFiles/MFRC522.dir/src/MFRC522.cpp.obj CMakeFiles/MFRC522.dir/src/MFRC522Debug.cpp.obj CMakeFiles/MFRC522.dir/src/MFRC522Extended.cpp.obj CMakeFiles/MFRC522.dir/src/MFRC522Hack.cpp.obj

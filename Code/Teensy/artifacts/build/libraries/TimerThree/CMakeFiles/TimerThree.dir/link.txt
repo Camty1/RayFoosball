@@ -1,0 +1,1 @@
+/usr/bin/ar qc libTimerThree.a  CMakeFiles/TimerThree.dir/TimerThree.cpp.obj

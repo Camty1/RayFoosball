@@ -1,0 +1,1 @@
+/usr/bin/ar qc libOSC.a  CMakeFiles/OSC.dir/OSCBundle.cpp.obj CMakeFiles/OSC.dir/OSCData.cpp.obj CMakeFiles/OSC.dir/OSCMatch.c.obj CMakeFiles/OSC.dir/OSCMessage.cpp.obj CMakeFiles/OSC.dir/OSCTiming.cpp.obj CMakeFiles/OSC.dir/SLIPEncodedSerial.cpp.obj CMakeFiles/OSC.dir/SLIPEncodedUSBSerial.cpp.obj

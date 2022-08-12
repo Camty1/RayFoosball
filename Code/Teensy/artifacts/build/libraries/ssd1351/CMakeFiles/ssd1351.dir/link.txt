@@ -1,0 +1,1 @@
+/usr/bin/ar qc libssd1351.a  CMakeFiles/ssd1351.dir/glcdfont.c.obj

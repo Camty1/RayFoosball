@@ -1,0 +1,1 @@
+/usr/bin/ar qc libSoftwareSerial.a  CMakeFiles/SoftwareSerial.dir/SoftwareSerial.cpp.obj

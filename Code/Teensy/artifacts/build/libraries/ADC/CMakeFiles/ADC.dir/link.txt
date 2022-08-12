@@ -1,0 +1,1 @@
+/usr/bin/ar qc libADC.a  CMakeFiles/ADC.dir/ADC.cpp.obj CMakeFiles/ADC.dir/ADC_Module.cpp.obj CMakeFiles/ADC.dir/AnalogBufferDMA.cpp.obj

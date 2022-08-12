@@ -1,0 +1,1 @@
+/usr/bin/ar qc libILI9341_t3.a  CMakeFiles/ILI9341_t3.dir/ILI9341_t3.cpp.obj CMakeFiles/ILI9341_t3.dir/font_Arial.c.obj CMakeFiles/ILI9341_t3.dir/font_ArialBold.c.obj CMakeFiles/ILI9341_t3.dir/glcdfont.c.obj

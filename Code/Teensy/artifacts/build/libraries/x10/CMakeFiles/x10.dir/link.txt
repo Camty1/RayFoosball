@@ -1,0 +1,1 @@
+/usr/bin/ar qc libx10.a  CMakeFiles/x10.dir/x10.cpp.obj

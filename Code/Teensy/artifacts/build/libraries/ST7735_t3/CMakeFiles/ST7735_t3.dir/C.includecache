@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/teensyduino/libraries/ST7735_t3/ILI9341_fonts.h
+
+/teensyduino/libraries/ST7735_t3/glcdfont.c
+
+/teensyduino/libraries/ST7735_t3/st7735_t3_font_Arial.c
+st7735_t3_font_Arial.h
+/teensyduino/libraries/ST7735_t3/st7735_t3_font_Arial.h
+
+/teensyduino/libraries/ST7735_t3/st7735_t3_font_Arial.h
+ILI9341_fonts.h
+/teensyduino/libraries/ST7735_t3/ILI9341_fonts.h
+
+/teensyduino/libraries/ST7735_t3/st7735_t3_font_ComicSansMS.c
+st7735_t3_font_ComicSansMS.h
+/teensyduino/libraries/ST7735_t3/st7735_t3_font_ComicSansMS.h
+
+/teensyduino/libraries/ST7735_t3/st7735_t3_font_ComicSansMS.h
+ILI9341_fonts.h
+/teensyduino/libraries/ST7735_t3/ILI9341_fonts.h
+

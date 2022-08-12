@@ -1,0 +1,3 @@
+file(REMOVE_RECURSE
+  "libTFT_ILI9163C.a"
+)

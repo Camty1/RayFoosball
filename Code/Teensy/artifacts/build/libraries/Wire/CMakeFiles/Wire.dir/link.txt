@@ -1,0 +1,1 @@
+/usr/bin/ar qc libWire.a  CMakeFiles/Wire.dir/Wire.cpp.obj CMakeFiles/Wire.dir/WireIMXRT.cpp.obj CMakeFiles/Wire.dir/WireKinetis.cpp.obj CMakeFiles/Wire.dir/utility/twi.c.obj

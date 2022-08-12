@@ -1,0 +1,1 @@
+/usr/bin/ar qc libMIDI.a  CMakeFiles/MIDI.dir/src/MIDI.cpp.obj

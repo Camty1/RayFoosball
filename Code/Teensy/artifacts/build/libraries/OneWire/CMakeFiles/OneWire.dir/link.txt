@@ -1,0 +1,1 @@
+/usr/bin/ar qc libOneWire.a  CMakeFiles/OneWire.dir/OneWire.cpp.obj

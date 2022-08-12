@@ -1,0 +1,1 @@
+/usr/bin/ar qc libBounce2.a  CMakeFiles/Bounce2.dir/src/Bounce2.cpp.obj

@@ -1,0 +1,1 @@
+/usr/bin/ar qc libSerialFlash.a  CMakeFiles/SerialFlash.dir/SerialFlashChip.cpp.obj CMakeFiles/SerialFlash.dir/SerialFlashDirectory.cpp.obj

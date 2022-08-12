@@ -1,0 +1,1 @@
+/usr/bin/ar qc libRA8875.a  CMakeFiles/RA8875.dir/RA8875.cpp.obj CMakeFiles/RA8875.dir/glcdfont.c.obj

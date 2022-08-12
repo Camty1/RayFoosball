@@ -1,0 +1,1 @@
+/usr/bin/ar qc libTFT_ILI9163C.a  CMakeFiles/TFT_ILI9163C.dir/TFT_ILI9163C.cpp.obj

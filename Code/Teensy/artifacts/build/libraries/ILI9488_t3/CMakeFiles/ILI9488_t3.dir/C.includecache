@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/teensyduino/libraries/ILI9488_t3/src/ILI9341_fonts.h
+
+/teensyduino/libraries/ILI9488_t3/src/glcdfont.c
+
+/teensyduino/libraries/ILI9488_t3/src/ili9488_t3_font_Arial.c
+ili9488_t3_font_Arial.h
+/teensyduino/libraries/ILI9488_t3/src/ili9488_t3_font_Arial.h
+
+/teensyduino/libraries/ILI9488_t3/src/ili9488_t3_font_Arial.h
+ILI9341_fonts.h
+/teensyduino/libraries/ILI9488_t3/src/ILI9341_fonts.h
+
+/teensyduino/libraries/ILI9488_t3/src/ili9488_t3_font_ArialBold.c
+ili9488_t3_font_ArialBold.h
+/teensyduino/libraries/ILI9488_t3/src/ili9488_t3_font_ArialBold.h
+
+/teensyduino/libraries/ILI9488_t3/src/ili9488_t3_font_ArialBold.h
+ILI9341_fonts.h
+/teensyduino/libraries/ILI9488_t3/src/ILI9341_fonts.h
+
+/teensyduino/libraries/ILI9488_t3/src/ili9488_t3_font_ComicSansMS.c
+ili9488_t3_font_ComicSansMS.h
+/teensyduino/libraries/ILI9488_t3/src/ili9488_t3_font_ComicSansMS.h
+
+/teensyduino/libraries/ILI9488_t3/src/ili9488_t3_font_ComicSansMS.h
+ILI9341_fonts.h
+/teensyduino/libraries/ILI9488_t3/src/ILI9341_fonts.h
+

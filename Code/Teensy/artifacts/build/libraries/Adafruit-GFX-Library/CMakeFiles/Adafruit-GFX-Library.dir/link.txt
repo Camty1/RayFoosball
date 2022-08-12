@@ -1,0 +1,1 @@
+/usr/bin/ar qc libAdafruit-GFX-Library.a  CMakeFiles/Adafruit-GFX-Library.dir/Adafruit_GFX.cpp.obj CMakeFiles/Adafruit-GFX-Library.dir/Adafruit_GrayOLED.cpp.obj CMakeFiles/Adafruit-GFX-Library.dir/Adafruit_SPITFT.cpp.obj CMakeFiles/Adafruit-GFX-Library.dir/glcdfont.c.obj

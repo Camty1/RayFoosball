@@ -1,0 +1,1 @@
+/usr/bin/ar qc libAdafruit_STMPE610.a  CMakeFiles/Adafruit_STMPE610.dir/Adafruit_STMPE610.cpp.obj

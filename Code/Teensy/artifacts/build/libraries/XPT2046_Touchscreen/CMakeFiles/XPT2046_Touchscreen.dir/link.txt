@@ -1,0 +1,1 @@
+/usr/bin/ar qc libXPT2046_Touchscreen.a  CMakeFiles/XPT2046_Touchscreen.dir/XPT2046_Touchscreen.cpp.obj

@@ -1,0 +1,1 @@
+/usr/bin/ar qc libSoftPWM.a  CMakeFiles/SoftPWM.dir/SoftPWM.cpp.obj

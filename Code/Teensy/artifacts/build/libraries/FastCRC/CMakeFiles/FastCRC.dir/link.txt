@@ -1,0 +1,1 @@
+/usr/bin/ar qc libFastCRC.a  CMakeFiles/FastCRC.dir/FastCRChw.cpp.obj CMakeFiles/FastCRC.dir/FastCRCsw.cpp.obj

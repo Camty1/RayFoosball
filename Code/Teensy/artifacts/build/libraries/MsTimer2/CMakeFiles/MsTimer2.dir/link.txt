@@ -1,0 +1,1 @@
+/usr/bin/ar qc libMsTimer2.a  CMakeFiles/MsTimer2.dir/MsTimer2.cpp.obj

@@ -1,0 +1,3 @@
+file(REMOVE_RECURSE
+  "libMFRC522.a"
+)

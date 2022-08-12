@@ -1,0 +1,1 @@
+/usr/bin/ar qc libLedControl.a  CMakeFiles/LedControl.dir/src/LedControl.cpp.obj

@@ -1,0 +1,1 @@
+/usr/bin/ar qc libLedDisplay.a  CMakeFiles/LedDisplay.dir/LedDisplay.cpp.obj

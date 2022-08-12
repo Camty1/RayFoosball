@@ -1,0 +1,1 @@
+/usr/bin/ar qc libWS2812Serial.a  CMakeFiles/WS2812Serial.dir/WS2812Serial.cpp.obj

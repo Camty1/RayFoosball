@@ -1,0 +1,1 @@
+/usr/bin/ar qc libPS2Keyboard.a  CMakeFiles/PS2Keyboard.dir/PS2Keyboard.cpp.obj

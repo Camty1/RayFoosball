@@ -1,0 +1,1 @@
+/usr/bin/ar qc libFlexiTimer2.a  CMakeFiles/FlexiTimer2.dir/FlexiTimer2.cpp.obj
