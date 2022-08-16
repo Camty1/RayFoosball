@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Aug 12 15:48:34 2022
+# Make data base, printed on Tue Aug 16 16:59:10 2022
 
 # Variables
 
@@ -55,7 +53,7 @@ XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-7d39b0cd-6c97-4e53-8114-2239fc52b113.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-ad9a565f-389c-4774-95a6-6b0a79638163.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -69,11 +67,11 @@ PWD = /home/cwolf/RayFoosball
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/12703_interop
+WSL_INTEROP = /run/WSL/25298_interop
 # environment
 PULSE_SERVER = /mnt/wslg/PulseServer
 # environment
-WT_SESSION = 303f3993-2483-4b57-81d6-3773cfa2bf2f
+WT_SESSION = 01b70b34-ed72-4712-8fdc-d30f59708f47
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -227,6 +225,8 @@ GNUmakefile:
 # strcache performance: lookups = 31 / hit rate = 9%
 # hash-table stats:
 # Load=28/8192=0%, Rehash=0, Collisions=1/31=3%
-# Finished Make data base on Fri Aug 12 15:48:34 2022
+# Finished Make data base on Tue Aug 16 16:59:10 2022
 
  
+make: *** No rule to make target 'all'.  Stop.
+

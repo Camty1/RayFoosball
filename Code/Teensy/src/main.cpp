@@ -3,20 +3,43 @@
 #include <vector>
 #include <stdlib.h>
 #include <random>
-//#include <Eigen/Dense>
 
-#define HWSERIAL Serial1
-#define PWMFORWARD 13
+#define PWMFORWARD 14
 #define PWMBACKWARD 15
-#define REVERSE 7
-#define TSUS 20000
+#define BALL_CS 16
+#define ROT_CS 17
+#define TS_US 20000
 
 // MotorCommands contain the PWM value [0, 256] for both the forward and backward reference input.
-// NOTE Either forward or backward should be non-zero, not both at the same time.
+// NOTE: Either forward or backward should be non-zero, not both at the same time.
 struct MotorCommand {
 	int fwd;
 	int bwd;
 };
+
+// Contains tick counts for both ball screw and rotation encoders
+struct EncoderData {
+	long ball;
+	long rot;
+
+	void zero(EndoderData *initialState) {
+		this->ball -= initialState->ball;
+		this->rot -= initialState->rot;
+	}
+
+};
+
+// Contains a linear and angular position doubles
+// TODO: Determine if quadrature counts are 4 * number of slits or not
+struct PositionData {
+	double ball;
+	double rot;
+
+	void convert(EncoderData *encoderData) {
+		this->ball = encoderData->ball/250;
+		this->rot = encoderData->rot/720;
+	}
+}
 
 // Function definitions
 MotorCommand generateCommand(double in);
@@ -49,7 +72,56 @@ void stepTime() {
 // 	int k;
 // };
 
-// Takes a double in the range [-1, 1] and converts it to a MotorCommand. Returns stop command if input is invalid
+void LS7366_Init(void) {
+   
+    // SPI initialization
+    SPI.begin();
+    delay(10);
+   
+   // Configure ball screw encoder
+   digitalWrite(BALL_CS,LOW);
+   SPI.transfer(0x88); 
+   SPI.transfer(0x03);
+   digitalWrite(BALL_CS,HIGH);
+
+   // Configure rotation encoder
+   digitalWrite(ROT_CS,LOW);
+   SPI.transfer(0x88); 
+   SPI.transfer(0x03);
+   digitalWrite(ROT_CS,HIGH); 
+}
+
+// Uses SPI to get tick count from encoders and updates EncoderData struct
+void getEncoderData(EncoderData* encoders) {
+
+	// Get data from ball screw encoder
+    digitalWrite(BALL_CS, LOW);
+	encoders->ball = encoderRead();
+	digitalWrite(BALL_CS, HIGH);
+
+	// Get data from rotation encoder
+	digitalWrite(ROT_CS. LOW);
+	encoders->rot = encoderRead();
+	digitalWrite(ROT_CS, HIGH);
+    
+}
+
+// Handles communication with encoder by sending 4 empty bytes.
+// NOTE: CS pin is not handled in this function.
+long encoderRead() {
+	// Initialize data
+	long data = 0;
+
+	// Read from encoder, combining the 4 bytes of signal into one value.
+	for (int i = 0; i < 4; i++) {
+		data << 8;
+		data += SPI.transfer(0xFF); // Dummy bytes to read from MISO line
+	}
+
+	return data;
+}
+
+// Takes a double in the range [-1, 1] and converts it to a MotorCommand. Enforces saturation if command is too big
 MotorCommand generateCommand(double in) {
 	// Initialize cmd and give it stop command.
 	MotorCommand cmd;
@@ -174,21 +246,34 @@ double randMotorControl() {
 
 // Called once at startup
 void setup() {
+
+	// Digital pins
 	pinMode(PWMBACKWARD, OUTPUT);
 	pinMode(PWMFORWARD, OUTPUT);
-	pinMode(REVERSE, INPUT);
+	pinMode(BALL_CS, OUTPUT);
+	pinMode(ROT_CS, OUTPUT);
 
+	// SPI setup
+	digitalWrite(BALL_CS, HIGH);
+	digitalWrite(ROT_CS, HIGH);
+
+
+	// USB serial
 	Serial.begin(9600);
-	HWSERIAL.begin(9600);
+
+	// Turn off motors at start
 	analogWrite(PWMFORWARD, 0);
 	analogWrite(PWMBACKWARD, 0);
-	timer.begin(stepTime, TSUS);
+
+	// Time step
+	// TODO: Attach interrupt to external pin for system clock signal
+	timer.begin(stepTime, TS_US);
 }
 
 // Called every frame
 void loop() {
 	//inputMotorControl();
-	//sineMotorControl(.5 * M_PI * 2, TSUS);
+	//sineMotorControl(.5 * M_PI * 2, TS_US);
 }
 
 int main(void) {
