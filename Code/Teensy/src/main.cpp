@@ -1,14 +1,4 @@
-#include "Arduino.h"
-#include <cmath>
-#include <vector>
-#include <stdlib.h>
-#include <random>
-
-#define PWMFORWARD 14
-#define PWMBACKWARD 15
-#define BALL_CS 16
-#define ROT_CS 17
-#define TS_US 20000
+#include "main.h"
 
 // MotorCommands contain the PWM value [0, 256] for both the forward and backward reference input.
 // NOTE: Either forward or backward should be non-zero, not both at the same time.
@@ -17,42 +7,7 @@ struct MotorCommand {
 	int bwd;
 };
 
-// Contains tick counts for both ball screw and rotation encoders
-struct EncoderData {
-	long ball;
-	long rot;
 
-	void zero(EndoderData *initialState) {
-		this->ball -= initialState->ball;
-		this->rot -= initialState->rot;
-	}
-
-};
-
-// Contains a linear and angular position doubles
-// TODO: Determine if quadrature counts are 4 * number of slits or not
-struct PositionData {
-	double ball;
-	double rot;
-
-	void convert(EncoderData *encoderData) {
-		this->ball = encoderData->ball/250;
-		this->rot = encoderData->rot/720;
-	}
-}
-
-// Function definitions
-MotorCommand generateCommand(double in);
-void driveMotor(MotorCommand cmd, int forwardPin, int backwardPin);
-double calcSine(double omega, double deltaT, int k);
-double calcSineHz(double f, double deltaT, int k);
-double getRandomInput();
-int readIntInput();
-void inputMotorControl();
-void sineMotorControl(double omega, int us);
-double randMotorControl();
-
-// Random number generator
 std::default_random_engine randGen;
 std::normal_distribution<double> distribution(0.0, 1/3.0);
 
@@ -72,54 +27,6 @@ void stepTime() {
 // 	int k;
 // };
 
-void LS7366_Init(void) {
-   
-    // SPI initialization
-    SPI.begin();
-    delay(10);
-   
-   // Configure ball screw encoder
-   digitalWrite(BALL_CS,LOW);
-   SPI.transfer(0x88); 
-   SPI.transfer(0x03);
-   digitalWrite(BALL_CS,HIGH);
-
-   // Configure rotation encoder
-   digitalWrite(ROT_CS,LOW);
-   SPI.transfer(0x88); 
-   SPI.transfer(0x03);
-   digitalWrite(ROT_CS,HIGH); 
-}
-
-// Uses SPI to get tick count from encoders and updates EncoderData struct
-void getEncoderData(EncoderData* encoders) {
-
-	// Get data from ball screw encoder
-    digitalWrite(BALL_CS, LOW);
-	encoders->ball = encoderRead();
-	digitalWrite(BALL_CS, HIGH);
-
-	// Get data from rotation encoder
-	digitalWrite(ROT_CS. LOW);
-	encoders->rot = encoderRead();
-	digitalWrite(ROT_CS, HIGH);
-    
-}
-
-// Handles communication with encoder by sending 4 empty bytes.
-// NOTE: CS pin is not handled in this function.
-long encoderRead() {
-	// Initialize data
-	long data = 0;
-
-	// Read from encoder, combining the 4 bytes of signal into one value.
-	for (int i = 0; i < 4; i++) {
-		data << 8;
-		data += SPI.transfer(0xFF); // Dummy bytes to read from MISO line
-	}
-
-	return data;
-}
 
 // Takes a double in the range [-1, 1] and converts it to a MotorCommand. Enforces saturation if command is too big
 MotorCommand generateCommand(double in) {
