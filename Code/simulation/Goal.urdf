@@ -1,0 +1,30 @@
+<robot name="Goal">
+    <link name="baseLink">
+        <contact>
+            <lateral_friction value="0.5"/>
+            <rolling_friction value="0.0"/>
+            <contact_cfm value="0.0"/>
+            <contact_erp value="1.0"/>
+        </contact>
+        <collision>
+            <geometry>
+                <mesh filename="Goal.obj" scale=".001 .001 .001"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+        </collision>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="Goal.obj" scale=".001 .001 .001"/>
+            </geometry>
+            <material name="blue">
+                <color rgba="0 0 1 1"/>
+            </material>
+        </visual>
+        <inertial>
+            <mass value="0"/>
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+        </inertial>
+    </link>
+</robot>
