@@ -10,10 +10,10 @@
             <geometry>
                 <mesh filename="Goal.obj" scale=".001 .001 .001"/>
             </geometry>
-            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <origin rpy="1.5707963 0 0" xyz="0 .092075 0"/>
         </collision>
         <visual>
-            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <origin rpy="1.5707963 0 0" xyz="0 .092075 0"/>
             <geometry>
                 <mesh filename="Goal.obj" scale=".001 .001 .001"/>
             </geometry>
@@ -24,7 +24,7 @@
         <inertial>
             <mass value="0"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <origin rpy="1.5707963 0 0" xyz="0 .092075 0"/>
         </inertial>
     </link>
 </robot>

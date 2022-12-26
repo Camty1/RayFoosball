@@ -4,7 +4,7 @@ import time
 import math
 import os
 
-runTime = 5 # seconds
+runTime = 10 # seconds
 goals = [0,0]
 
 ## Reset simulation to initial state after someone scores
@@ -23,16 +23,12 @@ p.connect(p.GUI)
 p.setAdditionalSearchPath(pd.getDataPath())
 
 # Table base position and rotation
-tableRotation = (math.sin(math.pi/4),0,0,math.cos(math.pi/4))
-tablePosition = (-(1219.2)/2/1000, (730.250000)/2/1000, 0)
+tableRotation = (0,0,0,1) #(math.sin(math.pi/4),0,0,math.cos(math.pi/4))
+tablePosition = (0,0,0) #(-(1219.2)/2/1000, (730.250000)/2/1000, 0)
 
-# Goal positions relative to corner of table
-localGoal1Position = (-25.4/1000, -273.05/1000, 25.4/1000)
-localGoal2Position = ((1219.2)/1000, -273.05/1000, 25.4/1000)
-
-# Global goal positions
-goal1Position = (tablePosition[0] + localGoal1Position[0], tablePosition[1] + localGoal1Position[1], tablePosition[2] + localGoal1Position[2]) 
-goal2Position = (tablePosition[0] + localGoal2Position[0], tablePosition[1] + localGoal2Position[1], tablePosition[2] + localGoal2Position[2]) 
+# Goal positions 
+goal1Position = (-25.4/1000-1219.2/2000, 0, 25.4/1000)
+goal2Position = ((1219.2)/2000, 0, 25.4/1000)
 
 # Loading URDF files
 table = p.loadURDF("CollisionTable.urdf", baseOrientation=tableRotation, basePosition=tablePosition)
