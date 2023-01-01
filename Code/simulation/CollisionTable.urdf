@@ -27,4 +27,109 @@
             <origin rpy="1.5707963 0 0" xyz="-.6096 .365125 0"/>
         </inertial>
     </link>
+    <joint name="goaliePrismatic1" type="prismatic">
+        <origin xyz="0.508 -0.366395 0.098425" rpy="0 0 0"/>
+        <parent link="baseLink"/>
+        <child link="goalieRod1"/>
+        <limit lower="0" upper=".18161"/>
+        <axis xyz="0 -1 0"/>
+    </joint>
+    <link name="goalieRod1">
+        <collision>
+            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius=".0078613" length="1"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="GoalieRod.obj" scale=".001 .001 .001"/>
+            </geometry>
+            <material name="white">
+                <color rbga="1 1 1 1"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="GP11" type="continuous">
+        <origin xyz="0 0.250825 0" rpy="0 0 1.5707963"/>
+        <parent link="goalieRod1"/>
+        <child link="goaliePlayer11"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="goaliePlayer11">
+        <contact>
+            <lateral_friction value="0.5"/>
+            <rolling_friction value="0.0"/>
+            <contact_cfm value="0.0"/>
+            <contact_erp value="1.0"/>
+        </contact>
+        <collision>
+            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <geometry>
+                <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <geometry>
+                <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+    </link>
+    <joint name="GP12" type="continuous">
+        <origin xyz="0 0.4572 0" rpy="0 0 1.5707963"/>
+        <parent link="goalieRod1"/>
+        <child link="goaliePlayer12"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="goaliePlayer12">
+        <contact>
+            <lateral_friction value="0.5"/>
+            <rolling_friction value="0.0"/>
+            <contact_cfm value="0.0"/>
+            <contact_erp value="1.0"/>
+        </contact>
+        <collision>
+            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <geometry>
+                <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <geometry>
+                <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+    </link>
+    <joint name="GP13" type="continuous">
+        <origin xyz="0 0.663575 0" rpy="0 0 1.5707963"/>
+        <parent link="goalieRod1"/>
+        <child link="goaliePlayer13"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="goaliePlayer13">
+        <contact>
+            <lateral_friction value="0.5"/>
+            <rolling_friction value="0.0"/>
+            <contact_cfm value="0.0"/>
+            <contact_erp value="1.0"/>
+        </contact>
+        <collision>
+            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <geometry>
+                <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <geometry>
+                <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+    </link>
 </robot>
