@@ -1,4 +1,5 @@
 #include "encoder.h"
+
 namespace encoder
 {
     // Contains tick counts for both ball screw and rotation encoders
@@ -31,17 +32,17 @@ namespace encoder
         SPI.begin();
         delay(10);
     
-    // Configure ball screw encoder
-    digitalWrite(BALL_CS,LOW);
-    SPI.transfer(0x88); 
-    SPI.transfer(0x03);
-    digitalWrite(BALL_CS,HIGH);
+        // Configure ball screw encoder
+        digitalWrite(BALL_CS,LOW);
+        SPI.transfer(0x88); 
+        SPI.transfer(0x03);
+        digitalWrite(BALL_CS,HIGH);
 
-    // Configure rotation encoder
-    digitalWrite(ROT_CS,LOW);
-    SPI.transfer(0x88); 
-    SPI.transfer(0x03);
-    digitalWrite(ROT_CS,HIGH); 
+        // Configure rotation encoder
+        digitalWrite(ROT_CS,LOW);
+        SPI.transfer(0x88); 
+        SPI.transfer(0x03);
+        digitalWrite(ROT_CS,HIGH); 
     }
 
     // Uses SPI to get tick count from encoders and updates EncoderData struct
@@ -53,7 +54,7 @@ namespace encoder
         digitalWrite(BALL_CS, HIGH);
 
         // Get data from rotation encoder
-        digitalWrite(ROT_CS. LOW);
+        digitalWrite(ROT_CS, LOW);
         encoders->rot = encoderRead();
         digitalWrite(ROT_CS, HIGH);
         
