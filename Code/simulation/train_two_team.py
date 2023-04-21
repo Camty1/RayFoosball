@@ -58,6 +58,12 @@ def train(mode="full_state"):
     if mode == "just_team_position":
         agent = PPO_TT(team_position_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
 
+    if mode == "decentralized_full":
+        goalie = PPO_TT(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        defense = PPO_TT(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        midfield = PPO_TT(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        striker = PPO_TT(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+
     # Start environment
     env = gym.FoosballEnv(just_goal=False)
 
@@ -190,7 +196,112 @@ def train(mode="full_state"):
 
             # TODO
             else:
-                print("Boop")
+                t1_goalie_action, t2_goalie_action = goalie.get_action(processed_state["t1"], processed_state["t2"])
+                t1_defense_action, t2_defense_action = defense.get_action(processed_state["t1"], processed_state["t2"])
+                t1_midfield_action, t2_midfield_action = midfield.get_action(processed_state["t1"], processed_state["t2"])
+                t1_striker_action, t2_striker_action = striker.get_action(processed_state["t1"], processed_state["t2"])
+                action = np.concatenate((t1_goalie_action, t1_defense_action, t1_midfield_action, t1_striker_action, t2_goalie_action, t2_defense_action, t1_midfield_action, t1_striker_action))
+
+                state, reward, done, _, _ = env.step(action)
+
+                goalie.buffer_t1.rewards.append(reward["t1_reward"])
+                goalie.buffer_t2.rewards.append(reward["t2_reward"])
+
+                goalie.buffer_t1.is_terminal.append(done)
+                goalie.buffer_t2.is_terminal.append(done)
+                
+                defense.buffer_t1.rewards.append(reward["t1_reward"])
+                defense.buffer_t2.rewards.append(reward["t2_reward"])
+
+                defense.buffer_t1.is_terminal.append(done)
+                defense.buffer_t2.is_terminal.append(done)
+
+                midfield.buffer_t1.rewards.append(reward["t1_reward"])
+                midfield.buffer_t2.rewards.append(reward["t2_reward"])
+
+                midfield.buffer_t1.is_terminal.append(done)
+                midfield.buffer_t2.is_terminal.append(done)
+
+                striker.buffer_t1.rewards.append(reward["t1_reward"])
+                striker.buffer_t2.rewards.append(reward["t2_reward"])
+
+                striker.buffer_t1.is_terminal.append(done)
+                striker.buffer_t2.is_terminal.append(done)
+
+                time_step += 1
+                current_ep_reward_t1 += reward["t1_reward"]
+                current_ep_reward_t2 += reward["t2_reward"]
+
+                if time_step % update_frequency == 0:
+                    processed_state = _handle_state(state, mode)
+                    
+                    q_value_t1_goalie = goalie.get_q_value(processed_state["t1"])
+                    q_value_t2_goalie = goalie.get_q_value(processed_state["t2"])
+                    q_value_t1_defense = defense.get_q_value(processed_state["t1"])
+                    q_value_t2_defense = defense.get_q_value(processed_state["t2"])
+                    q_value_t1_midfield = midfield.get_q_value(processed_state["t1"])
+                    q_value_t2_midfield = midfield.get_q_value(processed_state["t2"])
+                    q_value_t1_striker = striker.get_q_value(processed_state["t1"])
+                    q_value_t2_striker = striker.get_q_value(processed_state["t2"])
+
+                    goalie.buffer_t1.q_values.append(q_value_t1_goalie)
+                    goalie.buffer_t2.q_values.append(q_value_t2_goalie)
+                    defense.buffer_t1.q_values.append(q_value_t1_defense)
+                    defense.buffer_t2.q_values.append(q_value_t2_defense)
+                    midfield.buffer_t1.q_values.append(q_value_t1_midfield)
+                    midfield.buffer_t2.q_values.append(q_value_t2_midfield)
+                    striker.buffer_t1.q_values.append(q_value_t1_striker)
+                    striker.buffer_t2.q_values.append(q_value_t2_striker)
+                    
+                    goalie.update()
+                    defense.update()
+                    midfield.update()
+                    striker.update()
+                
+                if time_step % action_std_decay_frequency == 0:
+                    goalie.decay_action_std(action_std_decay_rate, min_action_std)
+                    defense.decay_action_std(action_std_decay_rate, min_action_std)
+                    midfield.decay_action_std(action_std_decay_rate, min_action_std)
+                    striker.decay_action_std(action_std_decay_rate, min_action_std)
+                
+                if time_step % log_frequency == 0:
+                    validation_reward = decentralized_validate(env, goalie, defense, midfield, striker, state)
+                    print_reward += validation_reward
+                    log_file.write("{},{},{}\n".format(i_episode, time_step, round(validation_reward, 4)))
+                    log_file.flush()
+
+                if time_step % print_frequency == 0: 
+                    print_avg_reward_t1 = print_running_reward_t1 / print_running_episodes
+                    print_avg_reward_t2 = print_running_reward_t2 / print_running_episodes
+
+                    print("{},{},{}".format(i_episode, time_step, round(validation_reward * (log_frequency/print_frequency), 4)))
+
+                    print_reward = 0
+
+
+                if time_step % save_model_frequency == 0:
+                    print("**************************")
+                    print("Saving model: " + checkpoint_path)
+                    goalie.save(checkpoint_path+"_goalie")
+                    defense.save(checkpoint_path+"_defense")
+                    midfield.save(checkpoint_path+"_midfield")
+                    striker.save(checkpoint_path+"_striker")
+                    print("**************************")
+                    print("Time: ", datetime.now().replace(microsecond=0) - start_time)
+                    print("**************************")
+
+                if done:
+                    break
+
+                print_running_reward_t1 += current_ep_reward_t1
+                print_running_reward_t2 += current_ep_reward_t2
+                print_running_episodes += 1
+
+                log_running_reward_t1 += current_ep_reward_t1
+                log_running_reward_t2 += current_ep_reward_t2
+                log_running_episodes += 1
+
+                i_episode += 1
 
     log_file.close()
     env.close()
@@ -250,7 +361,36 @@ def validate(env, agent, initial_state, random=False, mode="full_state"):
 
     return cumulative_reward
 
+def decentralized_validate(env, goalie, defense, midfield, striker, initial_state, random=False, mode="full_state"):
+    state, _ = env.reset(None, False)
+    cumulative_reward = 0
+    for _ in range(60 * 10):
+        processed_state = _handle_state(state, mode)
+        
+        goalie_action = goalie.get_action_validation(processed_state["t1"])
+        defense_action = defense.get_action_validation(processed_state["t1"])
+        midfield_action = midfield.get_action_validation(processed_state["t1"])
+        striker_action = striker.get_action_validation(processed_state["t1"])
+        
+        if random == False:
+            t2_action = np.full(.5, 8)
+
+        else:
+            t2_action = np.random.rand(8)
+
+        action = np.concatenate((goalie_action, defense_action, midfield_action, striker_action, t2_action))
+
+        state, reward, done, _, _ = env.step(action)
+        
+        cumulative_reward += reward["t1_reward"]
+
+        if done:
+            state, _ = env.reset(None, False)
+    
+    env.set_state(initial_state)
+
+    return cumulative_reward
 
 if __name__ == "__main__":
-    train("full_state")
+    train("decentralized_full")
 
