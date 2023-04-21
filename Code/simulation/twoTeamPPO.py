@@ -153,6 +153,14 @@ class PPO_TT:
         return action_t1.detach().cpu().numpy().flatten(), action_t2.detach().cpu().numpy().flatten()
 
 
+    def get_action_validation(self, state_t1):
+        with torch.no_grad():
+            state_t1 = torch.FloatTensor(state_t1).to(device)
+            action_t1, action_log_prob_t1, q_val_t1 = self.policy_old.act(state_t1)
+
+        return action_t1.detach().cpu().numpy().flatten()
+
+
     def update(self):
         q_values_t1, advantages_t1 = self._get_advantages_gae(self.buffer_t1.q_values, self.buffer_t1.is_terminal, self.buffer_t1.rewards)
         q_values_t2, advantages_t2 = self._get_advantages_gae(self.buffer_t2.q_values, self.buffer_t2.is_terminal, self.buffer_t2.rewards)

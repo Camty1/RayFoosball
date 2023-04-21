@@ -16,7 +16,7 @@ def train(mode="full_state"):
     max_ep_len = 60*30
     max_training_timesteps = int(5.4e6)
 
-    print_frequency = max_ep_len * 10
+    print_frequency = max_ep_len * 12
     log_frequency = max_ep_len * 2
     save_model_frequency = max_ep_len * 100
 
@@ -59,7 +59,7 @@ def train(mode="full_state"):
         agent = PPO_TT(team_position_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
 
     # Start environment
-    env = gym.FoosballEnv()
+    env = gym.FoosballEnv(just_goal=False)
 
     log_dir = "PPO_out"
     if not os.path.exists(log_dir):
@@ -116,6 +116,7 @@ def train(mode="full_state"):
         state, _ = env.reset()
         current_ep_reward_t1 = 0
         current_ep_reward_t2 = 0
+        print_reward = 0
 
         for t in range(1, max_ep_len+1):
 
@@ -152,27 +153,19 @@ def train(mode="full_state"):
                     agent.decay_action_std(action_std_decay_rate, min_action_std)
                 
                 if time_step % log_frequency == 0:
-                    log_avg_reward_t1 = log_running_reward_t1 / log_running_episodes
-                    log_avg_reward_t2 = log_running_reward_t2 / log_running_episodes
-
-                    log_file.write("{},{},{},{}\n".format(i_episode, time_step, round(log_avg_reward_t1, 4), round(log_avg_reward_t2,4)))
+                    validation_reward = validate(env, agent, state)
+                    print_reward += validation_reward
+                    log_file.write("{},{},{}\n".format(i_episode, time_step, round(validation_reward, 4)))
                     log_file.flush()
-
-                    log_running_reward_t1 = 0
-                    log_running_reward_t2 = 0
-
-                    log_running_episodes = 0
 
                 if time_step % print_frequency == 0: 
                     print_avg_reward_t1 = print_running_reward_t1 / print_running_episodes
                     print_avg_reward_t2 = print_running_reward_t2 / print_running_episodes
 
-                    print("{},{},{},{}".format(i_episode, time_step, round(print_avg_reward_t1, 2), round(print_avg_reward_t2,2)))
+                    print("{},{},{}".format(i_episode, time_step, round(validation_reward * (log_frequency/print_frequency), 4)))
 
-                    print_running_reward_t1 = 0
-                    print_running_reward_t2 = 0
+                    print_reward = 0
 
-                    print_running_episodes = 0
 
                 if time_step % save_model_frequency == 0:
                     print("**************************")
@@ -229,6 +222,33 @@ def _handle_state(state, mode="full_state"):
         states = {"t1": team1, "t2": team2}
 
     return states
+
+def validate(env, agent, initial_state, random=False, mode="full_state"):
+    state, _ = env.reset(None, False)
+    cumulative_reward = 0
+    for _ in range(60 * 10):
+        processed_state = _handle_state(state, mode)
+        
+        t1_action = agent.get_action_validation(processed_state["t1"])
+        
+        if random == False:
+            t2_action = np.zeros(8)
+
+        else:
+            t2_action = np.random.rand(8)
+
+        action = np.concatenate((t1_action, t2_action))
+
+        state, reward, done, _, _ = env.step(action)
+        
+        cumulative_reward += reward["t1_reward"]
+
+        if done:
+            state, _ = env.reset(None, False)
+    
+    env.set_state(initial_state)
+
+    return cumulative_reward
 
 
 if __name__ == "__main__":
