@@ -31,10 +31,6 @@ def _handle_state(state, mode="full_state"):
 
     return states
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-b', help="Toggle babylon mode on", action="store_true")
-args = parser.parse_args()
-babylon = args.b
 runtime = 30
 
 # Number of observations for different training modes 
@@ -58,7 +54,7 @@ random_seed = 0
 
 mode = "full_state"
 
-env = gym.FoosballEnv("ascii")
+env = gym.FoosballEnv("human")
 
 agent = PPO_TT(full_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip, 0.00001)
 
@@ -72,7 +68,7 @@ checkpoint_path = directory + "PPO_{}_{}_{}_tt".format(mode, random_seed, run_nu
 agent.load(checkpoint_path)
 #team2.load(checkpoint_path_t2)
 
-state, _ = env.reset(None, False)
+state, _ = env.reset(None, "normal")
 
 for _ in range(60 * runtime): 
     processed_state = _handle_state(state, mode)

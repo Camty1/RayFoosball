@@ -86,7 +86,7 @@ class FoosballEnv(gym.Env):
             self._normal_start()
 
         # Striker start is with ball in front of striker
-        else if start_type == "striker":
+        elif start_type == "striker":
             self._easy_start()
         
         # With random start, ball is in random location and players are in random positions
