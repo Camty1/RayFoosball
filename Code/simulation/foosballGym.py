@@ -77,17 +77,21 @@ class FoosballEnv(gym.Env):
         self._prismatic_list = prismatic_list
         self._rotation_list = rotation_list
 
-    def reset(self, seed=None, randomStart=True):
+    def reset(self, seed=None, start_type="random"):
         
         super().reset(seed=seed)
 
-        # With random start, ball is in random location and players are in random positions
-        if randomStart:
-            self._random_start()
-        
         # Normal start is like in standard foosball where ball comes from the side
+        if start_type == "normal":
+            self._normal_start()
+
+        # Striker start is with ball in front of striker
+        else if start_type == "striker":
+            self._easy_start()
+        
+        # With random start, ball is in random location and players are in random positions
         else:
-            self._normal_start() 
+            self._random_start()
 
         observation = self._get_obs()
         info = self._get_info()
