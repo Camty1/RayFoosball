@@ -5,9 +5,9 @@
 from computerVision.cv import ball
 from computerVision.cv import setCamera
 
-setCamera()
-ball = ball(ball.png)
-position = ball.findLocation()
+#setCamera()
+ball = ball('ball.png')
+position = ball.findLocation(0,0)
 
 
 def runGame():

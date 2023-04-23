@@ -4,10 +4,10 @@
 
 from picamera import PiCamera
 import cv2
-import colorsys
+#import colorsys
 import numpy as np
 
-def setCamera(self, camera):
+def setCamera(camera):
         camera.resolution = (1280,720)
         camera.framerate = 60
 
@@ -15,7 +15,8 @@ class ball():
     def __init__(self, color):
         self.camera = PiCamera()
         self.camera.start_preview()
-        self.color=cv2.cvtColor(color,cv2.COLOR_BGR2HSV)
+        self.color = cv2.imread(color)
+        self.color = cv2.cvtColor(self.color,cv2.COLOR_BGR2HSV)
         hue=self.color[:,:,0] 
         sat=self.color[:,:,1] 
         val=self.color[:,:,2]
@@ -29,11 +30,14 @@ class ball():
         self.yarray=[]
 
     def findLocation(self,oldx,oldy):
-        frame = self.camera.capture()
+        self.camera.capture('./computerVision/images/capture.jpg')
+        frame = cv2.imread('./computerVision/images/capture.jpg')
+        frame = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
         resultarray = cv2.inRange(frame, self.lower1,self.upper1)
         kernel = np.ones((3,3),np.uint8)
         dilate = cv2.morphologyEx(resultarray, cv2.MORPH_DILATE, kernel, iterations=5)
-        indices = np.where(dilate == [255])            
+        indices = np.where(dilate == [255])     
+        print(indices)       
         #print("test")
         x=np.mean(indices[0])
         y=np.mean(indices[1])
