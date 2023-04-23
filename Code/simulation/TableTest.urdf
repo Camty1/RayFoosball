@@ -1,4 +1,12 @@
-<robot name="collision_table">
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="collision_table">
+    <xacro:property name="rodRadius" value="0.0078613" />
+    <xacro:property name="goalieLength" value="1.0541" /> 
+    <xacro:property name="defenseLength" value="1.228725" /> 
+    <xacro:property name="midfieldLength" value="0.987425" /> 
+    <xacro:property name="strikerLength" value="1.101725" />
+    <xacro:property name="playerHeight" value="0.0658368" />
+
     <link concave="yes" name="baseLink">
         <contact>
             <lateral_friction value="0.5"/>
@@ -10,10 +18,10 @@
             <geometry>
                 <mesh filename="CollisionTable.obj" scale=".001 .001 .001"/>
             </geometry>
-            <origin rpy="1.5707963 0 0" xyz="-.6096 .365125 0"/>
+            <origin rpy="${pi/2} 0 0" xyz="-.6096 .365125 0"/>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="-.6096 .365125 0"/>
+            <origin rpy="${pi/2} 0 0" xyz="-.6096 .365125 0"/>
             <geometry>
                 <mesh filename="CollisionTable.obj" scale=".001 .001 .001"/>
             </geometry>
@@ -24,331 +32,331 @@
         <inertial>
             <mass value="0"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="1.5707963 0 0" xyz="-.6096 .365125 0"/>
+            <origin rpy="${pi/2} 0 0" xyz="-.6096 .365125 0"/>
         </inertial>
     </link>
     <link name="goalieBlock1">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="-.03215 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="-.03125 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
-            <material name="White">
+            <material name="white">
                 <color rgba="1 1 1 1"/>
             </material>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="goalieBlock2">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="-.03215 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="-.03125 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
-            <material name="Black">
+            <material name="black">
                 <color rgba="0.2 0.2 0.2 1"/>
             </material>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="defenseBlock1">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="-.03215 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="-.03125 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="defenseBlock2">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="-.03215 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="-.03125 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldBlock1">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="-.03215 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="-.03125 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldBlock2">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="-.03215 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="-.03125 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="strikerBlock1">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="-.03215 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="-.03125 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="strikerBlock2">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="-.03215 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="-.03125 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
             <geometry>
                 <box size=".0625 .03125 .125"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="goalieRod1">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${goalieLength/2} 0"/>
             <geometry>
-                <cylinder radius=".0078613" length="1"/>
+                <cylinder radius="${rodRadius}" length="${goalieLength}"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="${-pi/2} 0 0" xyz="0 ${goalieLength/2} 0"/>
             <geometry>
-                <mesh filename="GoalieRod.obj" scale=".001 .001 .001"/>
+                <cylinder radius="${rodRadius}" length="${goalieLength}"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 .52075 0"/>
         </inertial>
     </link>
     <link name="goalieRod2">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${goalieLength/2} 0"/>
             <geometry>
-                <cylinder radius=".0078613" length="1"/>
+                <cylinder radius="${rodRadius}" length="${goalieLength}"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${goalieLength/2} 0"/>
             <geometry>
-                <mesh filename="GoalieRod.obj" scale=".001 .001 .001"/>
+                <cylinder radius="${rodRadius}" length="${goalieLength}"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${goalieLength/2} 0"/>
         </inertial>
     </link>
     <link name="defenseRod1">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${defenseLength/2} 0"/>
             <geometry>
-                <cylinder radius=".0078613" length="1"/>
+                <cylinder radius="${rodRadius}" length="${defenseLength}"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${defenseLength/2} 0"/>
             <geometry>
-                <mesh filename="DefenseRod.obj" scale=".001 .001 .001"/>
+                <cylinder radius="${rodRadius}" length="${defenseLength}"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${defenseLength/2} 0"/>
         </inertial>
     </link>
     <link name="defenseRod2">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${defenseLength/2} 0"/>
             <geometry>
-                <cylinder radius=".0078613" length="1"/>
+                <cylinder radius="${rodRadius}" length="${defenseLength}"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${defenseLength/2} 0"/>
             <geometry>
-                <mesh filename="DefenseRod.obj" scale=".001 .001 .001"/>
+                <cylinder radius="${rodRadius}" length="${defenseLength}"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${defenseLength/2} 0"/>
         </inertial>
     </link>
     <link name="midfieldRod1">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${midfieldLength/2} 0"/>
             <geometry>
-                <cylinder radius=".0078613" length="1"/>
+                <cylinder radius="${rodRadius}" length="${midfieldLength}"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${midfieldLength/2} 0"/>
             <geometry>
-                <mesh filename="MidfieldRod.obj" scale=".001 .001 .001"/>
+                <cylinder radius="${rodRadius}" length="${midfieldLength}"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${midfieldLength/2} 0"/>
         </inertial>
     </link>
     <link name="midfieldRod2">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${midfieldLength/2} 0"/>
             <geometry>
-                <cylinder radius=".0078613" length="1"/>
+                <cylinder radius="${rodRadius}" length="${midfieldLength}"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${midfieldLength/2} 0"/>
             <geometry>
-                <mesh filename="MidfieldRod.obj" scale=".001 .001 .001"/>
+                <cylinder radius="${rodRadius}" length="${midfieldLength}"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${midfieldLength/2} 0"/>
         </inertial>
     </link>
     <link name="strikerRod1">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${strikerLength/2} 0"/>
             <geometry>
-                <cylinder radius=".0078613" length="1"/>
+                <cylinder radius="${rodRadius}" length="${strikerLength}"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${strikerLength/2} 0"/>
             <geometry>
-                <mesh filename="StrikerRod.obj" scale=".001 .001 .001"/>
+                <cylinder radius="${rodRadius}" length="${strikerLength}"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${strikerLength/2} 0"/>
         </inertial>
     </link>
     <link name="strikerRod2">
         <collision>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${strikerLength/2} 0"/>
             <geometry>
-                <cylinder radius=".0078613" length="1"/>
+                <cylinder radius="${rodRadius}" length="${strikerLength}"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${strikerLength/2} 0"/>
             <geometry>
-                <mesh filename="StrikerRod.obj" scale=".001 .001 .001"/>
+                <cylinder radius="${rodRadius}" length="${strikerLength}"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 ${strikerLength/2} 0"/>
         </inertial>
     </link>
     <link name="goaliePlayer11">
@@ -359,22 +367,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="goaliePlayer12">
@@ -385,22 +393,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="goaliePlayer13">
@@ -411,22 +419,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="goaliePlayer21">
@@ -437,22 +445,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="goaliePlayer22">
@@ -463,22 +471,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="goaliePlayer23">
@@ -489,22 +497,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="defensePlayer11">
@@ -515,22 +523,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="defensePlayer12">
@@ -541,22 +549,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="defensePlayer21">
@@ -567,22 +575,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="defensePlayer22">
@@ -593,22 +601,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldPlayer11">
@@ -619,22 +627,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldPlayer12">
@@ -645,22 +653,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldPlayer13">
@@ -671,22 +679,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldPlayer14">
@@ -697,22 +705,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldPlayer15">
@@ -723,22 +731,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldPlayer21">
@@ -749,22 +757,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldPlayer22">
@@ -775,22 +783,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldPlayer23">
@@ -801,22 +809,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldPlayer24">
@@ -827,22 +835,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="midfieldPlayer25">
@@ -853,22 +861,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="strikerPlayer11">
@@ -879,22 +887,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="strikerPlayer12">
@@ -905,22 +913,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="strikerPlayer13">
@@ -931,22 +939,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="strikerPlayer21">
@@ -957,22 +965,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="strikerPlayer22">
@@ -983,22 +991,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <link name="strikerPlayer23">
@@ -1009,22 +1017,22 @@
             <contact_erp value="1.0"/>
         </contact>
         <collision>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerCollider.obj" scale=".001 .001 .001"/>
             </geometry>
         </collision>
         <visual>
-            <origin rpy="1.5707963 0 0" xyz="0 0 -0.0658368"/>
+            <origin rpy="${pi/2} 0 0" xyz="0 0 -${playerHeight}"/>
             <geometry>
                 <mesh filename="PlayerVisual.obj" scale=".001 .001 .001"/>
             </geometry>
-            <material name="Black"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <mass value="1"/>
             <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
-            <origin rpy="-1.5707963 0 0" xyz="0 0 0"/>
+            <origin rpy="-${pi/2} 0 0" xyz="0 0 0"/>
         </inertial>
     </link>
     <joint name="goaliePrismatic1" type="prismatic">
@@ -1108,156 +1116,156 @@
         <axis xyz="0 1 0"/>
     </joint>
     <joint name="midfieldRotation1" type="continuous">
-        <origin xyz="0 0.987425 0.098425" rpy="0 0 3.14159265"/>
+        <origin xyz="0 ${midfieldLength} 0.098425" rpy="0 0 3.14159265"/>
         <parent link="midfieldBlock1"/>
         <child link="midfieldRod1"/>
         <axis xyz="0 1 0"/>
     </joint>
     <joint name="midfieldRotation2" type="continuous">
-        <origin xyz="0 0.987425 0.098425" rpy="0 0 3.14159265"/>
+        <origin xyz="0 ${midfieldLength} 0.098425" rpy="0 0 3.14159265"/>
         <parent link="midfieldBlock2"/>
         <child link="midfieldRod2"/>
         <axis xyz="0 1 0"/>
     </joint>
     <joint name="strikerRotation1" type="continuous">
-        <origin xyz="0 1.101725 0.098425" rpy="0 0 3.14159265"/>
+        <origin xyz="0 ${strikerLength} 0.098425" rpy="0 0 3.14159265"/>
         <parent link="strikerBlock1"/>
         <child link="strikerRod1"/>
         <axis xyz="0 1 0"/>
     </joint>
     <joint name="strikerRotation2" type="continuous">
-        <origin xyz="0 1.101725 0.098425" rpy="0 0 3.14159265"/>
+        <origin xyz="0 ${strikerLength} 0.098425" rpy="0 0 3.14159265"/>
         <parent link="strikerBlock2"/>
         <child link="strikerRod2"/>
         <axis xyz="0 1 0"/>
     </joint>
     <joint name="GP11" type="fixed">
-        <origin xyz="0 0.235585 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.235585 0" rpy="0 0 ${pi/2}"/>
         <parent link="goalieRod1"/>
         <child link="goaliePlayer11"/>
     </joint>
     <joint name="GP12" type="fixed">
-        <origin xyz="0 0.44196 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.44196 0" rpy="0 0 ${pi/2}"/>
         <parent link="goalieRod1"/>
         <child link="goaliePlayer12"/>
     </joint>
     <joint name="GP13" type="fixed">
-        <origin xyz="0 0.648335 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.648335 0" rpy="0 0 ${pi/2}"/>
         <parent link="goalieRod1"/>
         <child link="goaliePlayer13"/>
     </joint>
     <joint name="GP21" type="fixed">
-        <origin xyz="0 0.235585 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.235585 0" rpy="0 0 ${pi/2}"/>
         <parent link="goalieRod2"/>
         <child link="goaliePlayer21"/>
     </joint>
     <joint name="GP22" type="fixed">
-        <origin xyz="0 0.44196 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.44196 0" rpy="0 0 ${pi/2}"/>
         <parent link="goalieRod2"/>
         <child link="goaliePlayer22"/>
     </joint>
     <joint name="GP23" type="fixed">
-        <origin xyz="0 0.648335 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.648335 0" rpy="0 0 ${pi/2}"/>
         <parent link="goalieRod2"/>
         <child link="goaliePlayer23"/>
     </joint>
     <joint name="DP11" type="fixed">
-        <origin xyz="0 0.41021 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.41021 0" rpy="0 0 ${pi/2}"/>
         <parent link="defenseRod1"/>
         <child link="defensePlayer11"/>
     </joint>
     <joint name="DP12" type="fixed">
-        <origin xyz="0 0.65151 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.65151 0" rpy="0 0 ${pi/2}"/>
         <parent link="defenseRod1"/>
         <child link="defensePlayer12"/>
     </joint>
     <joint name="DP21" type="fixed">
-        <origin xyz="0 0.41021 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.41021 0" rpy="0 0 ${pi/2}"/>
         <parent link="defenseRod2"/>
         <child link="defensePlayer21"/>
     </joint>
     <joint name="DP22" type="fixed">
-        <origin xyz="0 0.65151 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.65151 0" rpy="0 0 ${pi/2}"/>
         <parent link="defenseRod2"/>
         <child link="defensePlayer22"/>
     </joint>
     <joint name="MP11" type="fixed">
-        <origin xyz="0 0.16891 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.16891 0" rpy="0 0 ${pi/2}"/>
         <parent link="midfieldRod1"/>
         <child link="midfieldPlayer11"/>
     </joint>
     <joint name="MP12" type="fixed">
-        <origin xyz="0 0.28956 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.28956 0" rpy="0 0 ${pi/2}"/>
         <parent link="midfieldRod1"/>
         <child link="midfieldPlayer12"/>
     </joint>
     <joint name="MP13" type="fixed">
-        <origin xyz="0 0.4191 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.4191 0" rpy="0 0 ${pi/2}"/>
         <parent link="midfieldRod1"/>
         <child link="midfieldPlayer13"/>
     </joint>
     <joint name="MP14" type="fixed">
-        <origin xyz="0 0.53086 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.53086 0" rpy="0 0 ${pi/2}"/>
         <parent link="midfieldRod1"/>
         <child link="midfieldPlayer14"/>
     </joint>
     <joint name="MP15" type="fixed">
-        <origin xyz="0 0.65151 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.65151 0" rpy="0 0 ${pi/2}"/>
         <parent link="midfieldRod1"/>
         <child link="midfieldPlayer15"/>
     </joint>
     <joint name="MP21" type="fixed">
-        <origin xyz="0 0.16891 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.16891 0" rpy="0 0 ${pi/2}"/>
         <parent link="midfieldRod2"/>
         <child link="midfieldPlayer21"/>
     </joint>
     <joint name="MP22" type="fixed">
-        <origin xyz="0 0.28956 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.28956 0" rpy="0 0 ${pi/2}"/>
         <parent link="midfieldRod2"/>
         <child link="midfieldPlayer22"/>
     </joint>
     <joint name="MP23" type="fixed">
-        <origin xyz="0 0.4191 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.4191 0" rpy="0 0 ${pi/2}"/>
         <parent link="midfieldRod2"/>
         <child link="midfieldPlayer23"/>
     </joint>
     <joint name="MP24" type="fixed">
-        <origin xyz="0 0.53086 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.53086 0" rpy="0 0 ${pi/2}"/>
         <parent link="midfieldRod2"/>
         <child link="midfieldPlayer24"/>
     </joint>
     <joint name="MP25" type="fixed">
-        <origin xyz="0 0.65151 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.65151 0" rpy="0 0 ${pi/2}"/>
         <parent link="midfieldRod2"/>
         <child link="midfieldPlayer25"/>
     </joint>
     <joint name="SP11" type="fixed">
-        <origin xyz="0 0.28321 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.28321 0" rpy="0 0 ${pi/2}"/>
         <parent link="strikerRod1"/>
         <child link="strikerPlayer11"/>
     </joint>
     <joint name="SP12" type="fixed">
-        <origin xyz="0 0.46736 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.46736 0" rpy="0 0 ${pi/2}"/>
         <parent link="strikerRod1"/>
         <child link="strikerPlayer12"/>
     </joint>
     <joint name="SP13" type="fixed">
-        <origin xyz="0 0.65151 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.65151 0" rpy="0 0 ${pi/2}"/>
         <parent link="strikerRod1"/>
         <child link="strikerPlayer13"/>
     </joint>
     <joint name="SP21" type="fixed">
-        <origin xyz="0 0.28321 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.28321 0" rpy="0 0 ${pi/2}"/>
         <parent link="strikerRod2"/>
         <child link="strikerPlayer21"/>
     </joint>
     <joint name="SP22" type="fixed">
-        <origin xyz="0 0.46736 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.46736 0" rpy="0 0 ${pi/2}"/>
         <parent link="strikerRod2"/>
         <child link="strikerPlayer22"/>
     </joint>
     <joint name="SP23" type="fixed">
-        <origin xyz="0 0.65151 0" rpy="0 0 1.5707963"/>
+        <origin xyz="0 0.65151 0" rpy="0 0 ${pi/2}"/>
         <parent link="strikerRod2"/>
         <child link="strikerPlayer23"/>
     </joint>
