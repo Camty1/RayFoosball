@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-frame2=cv2.imread('/Users/jacklange/ball2.png')
+frame2=cv2.imread('/Users/jacklange/ball.png')
 frame2=cv2.cvtColor(frame2,cv2.COLOR_BGR2HSV)
 hue=frame2[:,:,0] 
 sat=frame2[:,:,1] 
