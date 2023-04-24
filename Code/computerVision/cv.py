@@ -14,7 +14,7 @@ def setCamera(camera):
 class ball():
     def __init__(self, color):
         self.camera = PiCamera()
-        self.camera.start_preview()
+        #self.camera.start_preview()
         self.color = cv2.imread(color)
         self.color = cv2.cvtColor(self.color,cv2.COLOR_BGR2HSV)
         hue=self.color[:,:,0] 
@@ -39,13 +39,14 @@ class ball():
         indices = np.where(dilate == [255])     
         print(indices)       
         #print("test")
-        x=np.mean(indices[0])
-        y=np.mean(indices[1])
-        self.xarray.append(x)
-        self.yarray.append(y)
-        if np.isnan(x):
-            return "can't track"
+        if not indices[0].any() or not indices[1].any():
+            print( "can't track")
+
         else:
+            x=np.mean(indices[0])
+            y=np.mean(indices[1])
+            self.xarray.append(x)
+            self.yarray.append(y)
             print(x)
             print(y)
             x=int(x)
@@ -57,6 +58,7 @@ class ball():
 
             # Calculate velocity vector
             velocity = point2 - point1
-            return (x,y,velocity)
+            #return (x,y,velocity)
+            cv2.imwrite('./computerVision/images/captureResult.jpg',frame)
 
     
