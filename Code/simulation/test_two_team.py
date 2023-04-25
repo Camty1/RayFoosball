@@ -3,6 +3,8 @@ import numpy as np
 from twoTeamPPO import PPO_TT
 import foosballGym as gym
 import time
+import argparse
+
 
 def _handle_state(state, mode="full_state"):
 
@@ -29,6 +31,10 @@ def _handle_state(state, mode="full_state"):
 
     return states
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-b', help="Toggle babylon mode on", action="store_true")
+args = parser.parse_args()
+babylon = args.b
 runtime = 30
 
 # Number of observations for different training modes 
@@ -52,7 +58,7 @@ random_seed = 0
 
 mode = "full_state"
 
-env = gym.FoosballEnv("human")
+env = gym.FoosballEnv("ascii")
 
 agent = PPO_TT(full_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip, 0.00001)
 

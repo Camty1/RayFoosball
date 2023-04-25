@@ -125,7 +125,7 @@ class FoosballEnv(gym.Env):
 
         # Handle rendering
         if self.render_mode == "ascii":
-            self._render_ascii()
+            self._render_ascii(observation, info, reward)
 
         if (info["ball_z"] < -1):
             terminated = True
