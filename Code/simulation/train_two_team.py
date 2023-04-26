@@ -64,6 +64,24 @@ def train(mode="full_state"):
         midfield = PPO_TT(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
         striker = PPO_TT(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
 
+    if mode == "decentralized_position":
+        goalie = PPO_TT(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        defense = PPO_TT(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        midfield = PPO_TT(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        striker = PPO_TT(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+    
+    if mode == "decentralized_team":
+        goalie = PPO_TT(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        defense = PPO_TT(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        midfield = PPO_TT(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        striker = PPO_TT(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+
+    if mode == "decentralized_team_position":
+        goalie = PPO_TT(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        defense = PPO_TT(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        midfield = PPO_TT(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        striker = PPO_TT(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+
     # Start environment
     env = gym.FoosballEnv(just_goal=False)
 
@@ -159,7 +177,7 @@ def train(mode="full_state"):
                     agent.decay_action_std(action_std_decay_rate, min_action_std)
                 
                 if time_step % log_frequency == 0:
-                    validation_reward = validate(env, agent, state)
+                    validation_reward = validate(env, agent, state, mode=mode)
                     print_reward += validation_reward
                     log_file.write("{},{},{}\n".format(i_episode, time_step, round(validation_reward, 4)))
                     log_file.flush()
@@ -194,7 +212,6 @@ def train(mode="full_state"):
 
                 i_episode += 1
 
-            # TODO
             else:
                 t1_goalie_action, t2_goalie_action = goalie.get_action(processed_state["t1"], processed_state["t2"])
                 t1_defense_action, t2_defense_action = defense.get_action(processed_state["t1"], processed_state["t2"])
@@ -265,7 +282,7 @@ def train(mode="full_state"):
                     striker.decay_action_std(action_std_decay_rate, min_action_std)
                 
                 if time_step % log_frequency == 0:
-                    validation_reward = decentralized_validate(env, goalie, defense, midfield, striker, state)
+                    validation_reward = decentralized_validate(env, goalie, defense, midfield, striker, state, mode=mode)
                     print_reward += validation_reward
                     log_file.write("{},{},{}\n".format(i_episode, time_step, round(validation_reward, 4)))
                     log_file.flush()
@@ -373,7 +390,7 @@ def decentralized_validate(env, goalie, defense, midfield, striker, initial_stat
         striker_action = striker.get_action_validation(processed_state["t1"])
         
         if random == False:
-            t2_action = np.full(.5, 8)
+            t2_action = np.full(8, .5)
 
         else:
             t2_action = np.random.rand(8)
@@ -392,5 +409,5 @@ def decentralized_validate(env, goalie, defense, midfield, striker, initial_stat
     return cumulative_reward
 
 if __name__ == "__main__":
-    train("decentralized_full")
+    train("decentralized_team")
 

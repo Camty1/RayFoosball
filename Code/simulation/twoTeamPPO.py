@@ -5,7 +5,7 @@ from torch.distributions import MultivariateNormal
 import numpy as np
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('-b', action="store_false")
+parser.add_argument('-b', action="store_false", help="Flag for running on Babylon")
 args = parser.parse_args()
 
 device = torch.device("cpu")
