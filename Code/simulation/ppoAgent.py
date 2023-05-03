@@ -3,13 +3,20 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.distributions import MultivariateNormal
 import numpy as np
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('-b', action="store_false", help="Flag for running on Babylon")
+args = parser.parse_args()
 
 device = torch.device("cpu")
-if (torch.cuda.is_available()):
-    device = torch.device('cuda')
-    torch.cuda.empty_cache()
 
-print("Device: " + str(torch.cuda.get_device_name(device)))
+if args.b:
+
+    if (torch.cuda.is_available()):
+        device = torch.device('cuda')
+        torch.cuda.empty_cache()
+
+    print("Device: " + str(torch.cuda.get_device_name(device)))
 
 class Buffer:
     def __init__(self):

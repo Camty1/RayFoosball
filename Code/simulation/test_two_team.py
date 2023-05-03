@@ -3,6 +3,8 @@ import numpy as np
 from twoTeamPPO import PPO_TT
 import foosballGym as gym
 import time
+import argparse
+
 
 def _handle_state(state, mode="full_state"):
 
@@ -29,7 +31,7 @@ def _handle_state(state, mode="full_state"):
 
     return states
 
-runtime = 30
+runtime = 5
 
 # Number of observations for different training modes 
 full_obs = 36
@@ -66,7 +68,7 @@ checkpoint_path = directory + "PPO_{}_{}_{}_tt".format(mode, random_seed, run_nu
 agent.load(checkpoint_path)
 #team2.load(checkpoint_path_t2)
 
-state, _ = env.reset(None, False)
+state, _ = env.reset(None, "striker")
 
 for _ in range(60 * runtime): 
     processed_state = _handle_state(state, mode)
@@ -78,5 +80,5 @@ for _ in range(60 * runtime):
     state, reward, done, _, _ = env.step(action)
 
     if done:
-        state, _ = env.reset(None, False)
+        state, _ = env.reset(None, "striker")
 

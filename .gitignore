@@ -1,5 +1,6 @@
 Data/Videos
 *.mp4
 Code/Snake RL/Images/Initial
-Table Model
+'Table Model'/
 *.SLDPRT
+Code/simulation/__pycache__/

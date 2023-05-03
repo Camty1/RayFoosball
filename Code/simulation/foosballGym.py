@@ -10,9 +10,9 @@ import random
 
 class FoosballEnv(gym.Env):
 
-    def __init__(self, render_mode=None):
+    def __init__(self, render_mode=None, just_goal=False):
         self.metadata = {"render_modes": ["human", "ascii"], "render_fps": 60}
-        
+        self._just_goal = just_goal
         self._table_length = 46 * 25.4 / 1000     # 46 inches in m
         self._table_width  = 26.75 * 25.4 / 1000  # 26.75 inches in m
 
@@ -77,17 +77,23 @@ class FoosballEnv(gym.Env):
         self._prismatic_list = prismatic_list
         self._rotation_list = rotation_list
 
-    def reset(self, seed=None, randomStart=True):
+        self._no_movement_counter = 0
+
+    def reset(self, seed=None, start_type="random"):
         
         super().reset(seed=seed)
-
-        # With random start, ball is in random location and players are in random positions
-        if randomStart:
-            self._random_start()
-        
+        self._no_movement_counter = 0
         # Normal start is like in standard foosball where ball comes from the side
+        if start_type == "normal":
+            self._normal_start()
+
+        # Striker start is with ball in front of striker
+        elif start_type == "striker":
+            self._striker_start()
+        
+        # With random start, ball is in random location and players are in random positions
         else:
-            self._normal_start() 
+            self._random_start()
 
         observation = self._get_obs()
         info = self._get_info()
@@ -122,12 +128,22 @@ class FoosballEnv(gym.Env):
         observation = self._get_obs()
         info = self._get_info()
         reward = self._get_reward(info, score)
+        
+        ball_vel = np.linalg.norm(observation["ball_vel"])
+
+        if ball_vel < .05:
+            self._no_movement_counter += 1
+        else:
+            self._no_movement_counter = 0
 
         # Handle rendering
         if self.render_mode == "ascii":
-            self._render_ascii()
+            self._render_ascii(observation, info, reward)
 
         if (info["ball_z"] < -1):
+            terminated = True
+
+        if self._no_movement_counter >= 30:
             terminated = True
 
         return observation, reward, terminated, False, info
@@ -146,7 +162,7 @@ class FoosballEnv(gym.Env):
         goal2Position = ((1219.2)/2000, 0, 25.4/1000)
         
         # Load objects and make sure no errors
-        table = self._p.loadURDF("TableTest.urdf")
+        table = self._p.loadURDF("CollisionTable.urdf")
         assert table >= 0, "URDF error with table"
 
         ball  = self._p.loadURDF("ball.urdf", basePosition=(0, .3, .01))
@@ -293,10 +309,51 @@ class FoosballEnv(gym.Env):
             self._p.performCollisionDetection()
             contact = self._p.getContactPoints(self._ball)
         
+    def set_state(self, state):
+        
+        t1_pos = state["t1_pos"]
+        t2_pos = state["t2_pos"]
+
+        t1_vel = state["t1_vel"]
+        t2_vel = state["t2_vel"]
+
+        ball_pos = state["ball_pos"]
+        ball_vel = state["ball_vel"]
+
+        t1_pos_mapped = self._map(t1_pos, np.zeros(8), np.ones(8), self._prismatic_mins + self._rotation_mins, self._prismatic_maxes + self._rotation_maxes)
+        t2_pos_mapped = self._map(t2_pos, np.zeros(8), np.ones(8), self._prismatic_mins + self._rotation_mins, self._prismatic_maxes + self._rotation_maxes)
+        
+        t1_vel_mapped = self._map(t1_vel, np.full(8,-1), np.ones(8), self._prismatic_mins + self._rotation_mins, self._prismatic_maxes + self._rotation_maxes)
+        t2_vel_mapped = self._map(t2_vel, np.full(8,-1), np.ones(8), self._prismatic_mins + self._rotation_mins, self._prismatic_maxes + self._rotation_maxes)
+
+        for i in range(4):
+            self._p.resetJointState(self._table, self._t1_prismatic[i], t1_pos_mapped[i], t1_vel_mapped[i])
+            self._p.resetJointState(self._table, self._t1_rotation[i], t1_pos_mapped[i+4], t1_vel_mapped[i+4])
+
+            self._p.resetJointState(self._table, self._t2_prismatic[i], t2_pos_mapped[i], t2_vel_mapped[i])
+            self._p.resetJointState(self._table, self._t2_rotation[i], t2_pos_mapped[i+4], t2_vel_mapped[i+4])
+
+        self._p.resetBasePositionAndOrientation(self._ball, ball_pos.tolist() + [.025], (0,0,0,1))
+        self._p.resetBaseVelocity(self._ball, ball_vel.tolist() + [0], (0,0,0,1))
+        
+    def _striker_start(self):
+        x_position = -9.25*.0254
+        y_position = self.observation_space["ball_pos"].sample()
+        y_position = y_position[1]
+
+        position = [x_position, y_position, .07]
+        velocity = [0, 0, 0]
+        
+        self._p.resetBasePositionAndOrientation(self._ball, position, (0,0,0,1))
+        self._p.resetBaseVelocity(self._ball, velocity, (0,0,0,1))
+        
+        for joint in self._prismatic_list + self._rotation_list:
+            self._p.resetJointState(self._table, joint, 0, 0)
+    
     def _normal_start(self):
         angle = random.gauss(0, 10) * math.pi / 180
 
-        position = [0, .3, .1]
+        position = [0, .3, .04]
         velocity = [.5*math.sin(angle), .5*math.cos(angle), 0]
         
 
@@ -313,6 +370,8 @@ class FoosballEnv(gym.Env):
         # Combine info and gains to calculate initial reward
         t1_reward = -gains[0] * info["d1"] + gains[1] * info["d2"] + gains[2] * info["v1"] - gains[3] * info["v2"]
         
+        if self._just_goal:
+            t1_reward = 0
         # Scoring means that we want a big reward!
         if scored == 1:
             t1_reward += gains[4]

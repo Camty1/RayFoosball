@@ -3,13 +3,20 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.distributions import MultivariateNormal
 import numpy as np
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('-b', action="store_false", help="Flag for running on Babylon")
+args = parser.parse_args()
 
 device = torch.device("cpu")
-if (torch.cuda.is_available()):
-    device = torch.device('cuda')
-    torch.cuda.empty_cache()
 
-print("Device: " + str(torch.cuda.get_device_name(device)))
+if args.b:
+
+    if (torch.cuda.is_available()):
+        device = torch.device('cuda')
+        torch.cuda.empty_cache()
+
+    print("Device: " + str(torch.cuda.get_device_name(device)))
 
 class Buffer:
     def __init__(self):
@@ -151,6 +158,14 @@ class PPO_TT:
         self.buffer_t2.q_values.append(q_val_t2)
 
         return action_t1.detach().cpu().numpy().flatten(), action_t2.detach().cpu().numpy().flatten()
+
+
+    def get_action_validation(self, state_t1):
+        with torch.no_grad():
+            state_t1 = torch.FloatTensor(state_t1).to(device)
+            action_t1, action_log_prob_t1, q_val_t1 = self.policy_old.act(state_t1)
+
+        return action_t1.detach().cpu().numpy().flatten()
 
 
     def update(self):
