@@ -169,10 +169,11 @@ class PPO:
     def update(self, c1=0.5, c2 = 0.01):
         reward_to_go, advantage = self._GAE(self.buffer.rewards, self.buffer.values, self.buffer.is_terminal, self.buffer.terminal_values, self.buffer.terminal_count)
 
-        reward_to_go = torch.form_numpy(reward_to_go).to(device)
-        advantage = torch.form_numpy(advantage).to(device)
+        reward_to_go = torch.from_numpy(reward_to_go).to(device)
+        advantage = torch.from_numpy(advantage).to(device)
 
-        observations = torch.squeeze(torch.stack(self.buffer.states, dim=0)).detach().to(device)
+
+        observations = torch.squeeze(torch.stack(self.buffer.observations, dim=0)).detach().to(device)
 
         actions = torch.squeeze(torch.stack(self.buffer.actions, dim=0)).detach().to(device)
 
@@ -226,8 +227,8 @@ class PPO:
 
         assert len(terminal_values) == terminal_count, "Terminal values vector (len {}) does not match terminal count (val {})".format(len(terminal_values), terminal_count)
 
-        reward_to_go = np.zeros_like(rewards)
-        advantage = np.zeros_like(rewards)
+        reward_to_go = np.zeros_like(rewards, dtype=np.float32)
+        advantage = np.zeros_like(rewards, dtype=np.float32)
 
         for i in reversed(range(len(rewards))):
             if is_terminal[i]:
@@ -238,7 +239,7 @@ class PPO:
             else:
                 reward_to_go[i] = rewards[i] + self.gamma * reward_to_go[i+1]
                 delta = rewards[i] + self.gamma * values[i+1] - values[i]
-                advantage[i] = delta + self.gamma * self.lamdba_GAE * advantage[i+1]
+                advantage[i] = delta + self.gamma * self.lambda_GAE * advantage[i+1]
 
         return reward_to_go, advantage
 
