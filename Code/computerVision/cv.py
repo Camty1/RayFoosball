@@ -6,14 +6,18 @@ from picamera import PiCamera
 import cv2
 #import colorsys
 import numpy as np
+import time
+from picamera.array import PiRGBArray
 
 def setCamera(camera):
-        camera.resolution = (1280,720)
-        camera.framerate = 60
+    camera.resolution = (1280,720)
+    camera.framerate = 60
 
 class ball():
     def __init__(self, color):
         self.camera = PiCamera()
+        self.rawCapture = PiRGBArray(self.camera)
+        time.sleep(0.2)
         #self.camera.start_preview()
         self.color = cv2.imread(color)
         self.color = cv2.cvtColor(self.color,cv2.COLOR_BGR2HSV)
@@ -30,13 +34,17 @@ class ball():
         self.yarray=[]
 
     def findLocation(self,oldx,oldy):
-        self.camera.capture('./computerVision/images/capture.jpg')
-        frame = cv2.imread('./computerVision/images/capture.jpg')
+        tic = time.perf_counter()
+        self.camera.capture(self.rawCapture, format="bgr")
+        
+        frame = self.rawCapture.array
+        toc = time.perf_counter()   
         frame = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
         resultarray = cv2.inRange(frame, self.lower1,self.upper1)
         kernel = np.ones((3,3),np.uint8)
         dilate = cv2.morphologyEx(resultarray, cv2.MORPH_DILATE, kernel, iterations=5)
-        indices = np.where(dilate == [255])     
+        indices = np.where(dilate == [255]) 
+         
         print(indices)       
         #print("test")
         if not indices[0].any() or not indices[1].any():
@@ -58,6 +66,8 @@ class ball():
 
             # Calculate velocity vector
             velocity = point2 - point1
+            
+            print({toc-tic})
             #return (x,y,velocity)
             cv2.imwrite('./computerVision/images/captureResult.jpg',frame)
 
