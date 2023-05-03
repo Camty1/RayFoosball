@@ -49,7 +49,7 @@ class ActorCritic(nn.Module):
             nn.Linear(64,64),
             nn.ReLU(),
             nn.Linear(64, action_dim),
-            nn.Sigmoid()
+            nn.Tanh()
         )
     
         self.critic = nn.Sequential(
@@ -95,7 +95,14 @@ class ActorCritic(nn.Module):
         covariance = torch.diag_embed(action_var).to(device)
         dist = MultivariateNormal(action_mean, covariance)
 
-        action_log_prob = dist.log_prob(action)
+        split_actions = torch.split(action, self.action_dim)
+        split_log_probs = []
+        print(split_actions)
+        for i in range(len(split_actions)):
+            log_prob = dist.log_prob(split_actions[i])
+            split_log_probs.append(log_prob)
+        action_log_prob = torch.squeeze(torch.stack(split_log_probs))
+        print(action_log_prob)
         dist_entropy = dist.entropy()
         q_values = self.critic(state)
 
@@ -133,7 +140,7 @@ class PPO:
         self.action_std = self.action_std - action_std_decay_rate
         #self.action_std = round(self.action_std, 4) Why is rounding necessary
 
-        if self.action_std <= min_action_std:
+        if self.action_std < min_action_std:
             self.action_std = min_action_std
 
         self.set_action_std(self.action_std)
@@ -164,7 +171,7 @@ class PPO:
         old_log_probs = torch.squeeze(torch.stack(self.buffer.log_probs, dim=0)).detach().to(device)
 
         for i in range(self.K_epochs):
-
+            print(i)
             log_probs, new_q_values, dist_entropy = self.policy.evaluate(old_states, old_actions)
 
             new_q_values = torch.squeeze(new_q_values)
@@ -184,7 +191,7 @@ class PPO:
 
         self.buffer.clear()
     
-    def get_q_value(self, state):
+    def get_value(self, state):
         with torch.no_grad():
             torch_state = torch.FloatTensor(state).to(device)
             q_value = self.policy_old.critic(torch_state)
@@ -198,8 +205,8 @@ class PPO:
         self.policy.load_state_dict(torch.load(checkpoint_path, map_location=lambda storage, loc: storage))
 
     ## State values has one more entry than rewards
-    def _get_advantages_gae(self, values, is_terminal, rewards, lmbda=0.95):
-        new_values = []
+    def _get_advantages_gae(self, q_values, is_terminal, rewards, lmbda=0.95):
+        new_q_values = []
         cumulative_adv = 0
         
         assert len(q_values) == len(rewards) + 1, "State values (len {}) is not one longer than rewards (len {}), GAE cannot run".format(len(q_values), len(rewards))
