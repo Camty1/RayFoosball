@@ -64,50 +64,50 @@ class PiVideoStream:
         # cv2.imshow("Ron Johnson", self.frame)
 
         #convert frame to HSV
-        hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
-        #define range of color in HSV
-        lower = self.lower1
-        upper = self.upper1
-        #threshold the HSV image to get only the color
-        mask = cv2.inRange(hsv, lower, upper)
-        #bitwise-AND mask and original image
-        res = cv2.bitwise_and(self.frame,self.frame, mask= mask)
-        #find contours in the mask
-        cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
-        cv2.CHAIN_APPROX_SIMPLE)[-2]
-        #initialize center of ball
-        center = None
-        #only proceed if at least one contour was found
-        if len(cnts) > 0:
-            #find the largest contour in the mask
-            c = max(cnts, key=cv2.contourArea)
-            #find the minimum enclosing circle
-            ((x,y), radius) = cv2.minEnclosingCircle(c)
-            #find the moments of the contour
-            M = cv2.moments(c)
-            #calculate the center of the contour
-            if M["m00"] != 0:
-                center = (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"]))
-                print(center)
-            else:
-                print("cannot track")
-    #     cv2.cvtColor(self.frame,cv2.COLOR_RGB2BGR)
-    #     cv2.cvtColor(self.frame,cv2.COLOR_BGR2HSV)
-    #     resultarray = cv2.inRange(self.frame, self.lower1,self.upper1)
-    #     kernel = np.ones((3,3),np.uint8)
-    #     dilate = cv2.morphologyEx(resultarray, cv2.MORPH_DILATE, kernel, iterations=5)
-    #     indices = np.where(dilate == [255]) 
-    #     if not indices[0].any() or not indices[1].any():
-    #         print( "can't track")
-    #     else:
-    #         x=np.mean(indices[0])
-    #         y=np.mean(indices[1])
-    #         self.xarray.append(x)
-    #         self.yarray.append(y)
-    #         print(x, y)
-    #         x=int(x)
-    #         y=int(y)
-    #         cv2.circle(self.frame, (y,x), 20, (0,255,255), 10)
+        # hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
+        # #define range of color in HSV
+        # lower = self.lower1
+        # upper = self.upper1
+        # #threshold the HSV image to get only the color
+        # mask = cv2.inRange(hsv, lower, upper)
+        # #bitwise-AND mask and original image
+        # res = cv2.bitwise_and(self.frame,self.frame, mask= mask)
+        # #find contours in the mask
+        # cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
+        # cv2.CHAIN_APPROX_SIMPLE)[-2]
+        # #initialize center of ball
+        # center = None
+        # #only proceed if at least one contour was found
+        # if len(cnts) > 0:
+        #     #find the largest contour in the mask
+        #     c = max(cnts, key=cv2.contourArea)
+        #     #find the minimum enclosing circle
+        #     ((x,y), radius) = cv2.minEnclosingCircle(c)
+        #     #find the moments of the contour
+        #     M = cv2.moments(c)
+        #     #calculate the center of the contour
+        #     if M["m00"] != 0:
+        #         center = (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"]))
+        #         print(center)
+        #     else:
+        #         print("cannot track")
+        cv2.cvtColor(self.frame,cv2.COLOR_RGB2BGR)
+        cv2.cvtColor(self.frame,cv2.COLOR_BGR2HSV)
+        resultarray = cv2.inRange(self.frame, self.lower1,self.upper1)
+        kernel = np.ones((3,3),np.uint8)
+        dilate = cv2.morphologyEx(resultarray, cv2.MORPH_DILATE, kernel, iterations=5)
+        indices = np.where(dilate == [255]) 
+        if not indices[0].any() or not indices[1].any():
+            print( "can't track")
+        else:
+            x=np.mean(indices[0])
+            y=np.mean(indices[1])
+            self.xarray.append(x)
+            self.yarray.append(y)
+            print(x, y)
+            x=int(x)
+            y=int(y)
+            cv2.circle(self.frame, (y,x), 20, (0,255,255), 10)
         return self.frame
     
     def stop(self):
