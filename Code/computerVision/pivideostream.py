@@ -34,7 +34,7 @@ class PiVideoStream:
         huetarget=np.mean(hue)
         sattarget=np.mean(sat)
         valtarget=np.mean(val)
-        tolerance=0.1
+        tolerance=0.3
         self.lower1 = np.array([huetarget*(1-tolerance), sattarget*(1-tolerance), valtarget*(1-tolerance)])
         self.upper1 = np.array([huetarget*(1+tolerance), sattarget*(1+tolerance), valtarget*(1+tolerance)])
         self.xarray=[]
