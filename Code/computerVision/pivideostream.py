@@ -133,3 +133,4 @@ out = cv2.VideoWriter('~/output_video.mp4', fourcc, fps, (width, height))
 for frame in frames:
     out.write(frame)
 out.release()
+print("done")
