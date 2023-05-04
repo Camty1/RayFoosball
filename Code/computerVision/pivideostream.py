@@ -124,10 +124,12 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
+
 width, height = 360, 240
 fps = 30
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 
+print(frames)
 # create the video writer object
 out = cv2.VideoWriter('~/output_video.mp4', fourcc, fps, (width, height))
 for frame in frames:
