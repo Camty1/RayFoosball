@@ -34,7 +34,7 @@ class PiVideoStream:
         huetarget=np.mean(hue)
         sattarget=np.mean(sat)
         valtarget=np.mean(val)
-        tolerance=0.3
+        tolerance=0.4
         self.lower1 = np.array([huetarget*(1-tolerance), sattarget*(1-tolerance), valtarget*(1-tolerance)])
         self.upper1 = np.array([huetarget*(1+tolerance), sattarget*(1+tolerance), valtarget*(1+tolerance)])
         self.xarray=[]
@@ -104,11 +104,13 @@ time.sleep(2.0)
 frame = vs.read()
 cv2.imwrite("InitialImage.jpg", frame)
 fps = FPS().start()
+frames = []
 # loop over some frames...this time using the threaded stream
 while fps._numFrames < 1000:
     # grab the frame from the threaded video stream and resize it
     # to have a maximum width of 400 pixels
     frame = vs.read()
+    frames.append(frame)
     frame = imutils.resize(frame, width=400)
     # check to see if the frame should be displayed to our screen
     # cv2.imshow("Ron Johnson", frame)
@@ -122,3 +124,6 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
+writer = cv2.VideoWriter("outputvideo.mp4",cv2.VideoWriter_fourcc(*"MP4V"),30,(360,240))
+writer.write(cv2.resize(frames,(360,240))) #write frame into output vid
+writer.release()
