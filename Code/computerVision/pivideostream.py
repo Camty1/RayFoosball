@@ -86,8 +86,9 @@ class PiVideoStream:
             #find the moments of the contour
             M = cv2.moments(c)
             #calculate the center of the contour
-            center = (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"]))
-            print(center)
+            if M["m00"] != 0:
+                center = (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"]))
+                print(center)
     #     cv2.cvtColor(self.frame,cv2.COLOR_RGB2BGR)
     #     cv2.cvtColor(self.frame,cv2.COLOR_BGR2HSV)
     #     resultarray = cv2.inRange(self.frame, self.lower1,self.upper1)
