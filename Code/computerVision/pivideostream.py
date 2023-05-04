@@ -131,6 +131,7 @@ fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 # create the video writer object
 out = cv2.VideoWriter('~/output_video.mp4', fourcc, fps, (width, height))
 for frame in frames:
+    print("writing frame")
     out.write(frame)
 out.release()
 print("done")
