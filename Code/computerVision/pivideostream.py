@@ -91,6 +91,7 @@ class PiVideoStream:
                 print(center)
             else:
                 print("cannot track")
+        return self.frame
     
     def stop(self):
          # indicate that the thread should be stopped
