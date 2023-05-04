@@ -106,7 +106,7 @@ cv2.imwrite("InitialImage.jpg", frame)
 fps = FPS().start()
 frames = []
 # loop over some frames...this time using the threaded stream
-while fps._numFrames < 1000:
+while fps._numFrames < 100:
     # grab the frame from the threaded video stream and resize it
     # to have a maximum width of 400 pixels
     frame = vs.read()
@@ -125,5 +125,6 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 cv2.destroyAllWindows()
 vs.stop()
 writer = cv2.VideoWriter("outputvideo.mp4",cv2.VideoWriter_fourcc(*"MP4V"),30,(360,240))
-writer.write(cv2.resize(frames,(360,240))) #write frame into output vid
+for i in range(0,len(frames),100):
+    writer.write(cv2.resize(frames,(360,240))) #write frame into output vid
 writer.release()
