@@ -71,7 +71,7 @@ class PiVideoStream:
         #threshold the HSV image to get only the color
         mask = cv2.inRange(hsv, lower, upper)
         #bitwise-AND mask and original image
-        res = cv2.bitwise_and(frame,frame, mask= mask)
+        res = cv2.bitwise_and(self.frame,self.frame, mask= mask)
         #find contours in the mask
         cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
         cv2.CHAIN_APPROX_SIMPLE)[-2]
