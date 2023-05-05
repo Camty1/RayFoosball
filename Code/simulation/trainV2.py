@@ -198,8 +198,6 @@ def train(mode="full_state"):
                     print("Time: ", datetime.now().replace(microsecond=0) - start_time)
                     print("**************************")
 
-                    agent.buffer.terminal_count += 1
-
                 if done:
                     break
 
@@ -210,6 +208,12 @@ def train(mode="full_state"):
                 log_running_episodes += 1
 
                 i_episode += 1
+            # something here
+            processed_obs = handle_obs(obs, mode)
+            agent.buffer.terminal_values.append(agent.get_value(processed_obs["t1"]))
+            agent.buffer.terminal_count += 1
+            agent.buffer.is_terminal[-1] = True
+
 
     log_file.close()
     env.close()
