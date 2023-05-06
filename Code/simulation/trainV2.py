@@ -84,7 +84,7 @@ def train(mode="full_state"):
         striker = PPO(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
     
     # Start environment
-    just_goal = False 
+    just_goal = True 
     env = gym.FoosballEnv(just_goal=just_goal)
 
     log_dir = "PPO_out"
