@@ -14,7 +14,7 @@ def train(mode="full_state"):
 
     # Environment hyperparameters
     max_ep_len = 60*30
-    max_training_timesteps = int(3e6)
+    max_training_timesteps = int(5.4e6)
 
     print_frequency = max_ep_len * 10
     log_frequency = max_ep_len * 2
@@ -51,37 +51,37 @@ def train(mode="full_state"):
         agent = PPO(full_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, lambda_GAE, epsilon_clip)
 
     if mode == "just_position":
-        agent = PPO(position_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        agent = PPO(position_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, lambda_GAE, epsilon_clip)
 
     if mode == "just_team":
-        agent = PPO(team_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        agent = PPO(team_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, lambda_GAE, epsilon_clip)
 
     if mode == "just_team_position":
-        agent = PPO(team_position_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        agent = PPO(team_position_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, lambda_GAE, epsilon_clip)
 
     if mode == "decentralized_full":
-        goalie = PPO(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        defense = PPO(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        midfield = PPO(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        striker = PPO(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        goalie = PPO(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        defense = PPO(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        midfield = PPO(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        striker = PPO(full_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
 
     if mode == "decentralized_position":
-        goalie = PPO(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        defense = PPO(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        midfield = PPO(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        striker = PPO(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        goalie = PPO(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        defense = PPO(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        midfield = PPO(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        striker = PPO(position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
     
     if mode == "decentralized_team":
-        goalie = PPO(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        defense = PPO(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        midfield = PPO(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        striker = PPO(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        goalie = PPO(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        defense = PPO(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        midfield = PPO(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        striker = PPO(team_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
 
     if mode == "decentralized_team_position":
-        goalie = PPO(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        defense = PPO(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        midfield = PPO(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
-        striker = PPO(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip)
+        goalie = PPO(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        defense = PPO(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        midfield = PPO(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
+        striker = PPO(team_position_obs, decentralized_actions, actor_lr, critic_lr, gamma, K_epochs, epsilon)
     
     # Start environment
     just_goal = False 
@@ -208,7 +208,8 @@ def train(mode="full_state"):
                 log_running_episodes += 1
 
                 i_episode += 1
-            if len(is_terminal > 0):
+
+            if len(agent.buffer.is_terminal) > 0:
                 processed_obs = handle_obs(obs, mode)
                 agent.buffer.terminal_values.append(agent.get_value(processed_obs["t1"]))
                 agent.buffer.terminal_count += 1
@@ -247,5 +248,5 @@ def handle_obs(obs, mode="full_state"):
 
 
 if __name__ == "__main__":
-    train("full_state")
+    train("just_team")
 
