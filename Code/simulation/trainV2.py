@@ -137,7 +137,7 @@ def train(mode="full_state"):
     i_episode = 0
 
     while time_step <= max_training_timesteps:
-        obs, _ = env.reset()
+        obs, _ = env.reset(start_type="striker")
         current_ep_reward = 0
 
         for t in range(1, max_ep_len):
@@ -208,11 +208,11 @@ def train(mode="full_state"):
                 log_running_episodes += 1
 
                 i_episode += 1
-            # something here
-            processed_obs = handle_obs(obs, mode)
-            agent.buffer.terminal_values.append(agent.get_value(processed_obs["t1"]))
-            agent.buffer.terminal_count += 1
-            agent.buffer.is_terminal[-1] = True
+            if len(is_terminal > 0):
+                processed_obs = handle_obs(obs, mode)
+                agent.buffer.terminal_values.append(agent.get_value(processed_obs["t1"]))
+                agent.buffer.terminal_count += 1
+                agent.buffer.is_terminal[-1] = True
 
 
     log_file.close()
