@@ -142,9 +142,14 @@ class FoosballEnv(gym.Env):
 
         if (info["ball_z"] < -1):
             terminated = True
+            reward["t1_reward"] -= 1000
+            reward["t2_reward"] -= 1000
 
         if self._no_movement_counter >= 30:
             terminated = True
+            reward["t1_reward"] -= 1000
+            reward["t2_reward"] -= 1000
+            
 
         return observation, reward, terminated, False, info
 
