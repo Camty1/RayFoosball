@@ -155,11 +155,6 @@ def train(mode="full_state"):
                 agent.buffer.rewards.append(reward["t1_reward"])
                 agent.buffer.is_terminal.append(done)
 
-                if done:
-                    processed_obs = handle_obs(obs, mode)
-                    agent.buffer.terminal_values.append(agent.get_value(processed_obs["t1"]))
-                    agent.buffer.terminal_count += 1
-
                 time_step += 1
                 current_ep_reward += reward["t1_reward"]
 
