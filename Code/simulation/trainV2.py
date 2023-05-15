@@ -140,7 +140,7 @@ def train(mode="full_state"):
         obs, _ = env.reset(start_type="striker")
         current_ep_reward = 0
 
-        for t in range(1, max_ep_len):
+        for t in range(1, max_ep_len+1):
 
             processed_obs = handle_obs(obs, mode)
 

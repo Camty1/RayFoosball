@@ -1,12 +1,12 @@
 import torch
 import numpy as np
-from ppoAgent import PPO
+from ppoAgentV2 import PPO
 import gymnasium as gym
 import os
 from datetime import datetime
 
 def train():
-    max_ep_len = 999
+    max_ep_len = 1000 
     max_training_timesteps = int(3e6)
 
     print_frequency = max_ep_len * 10
@@ -23,19 +23,20 @@ def train():
     critic_lr = .001
     gamma = .99
     K_epochs = 80
-    clip = .2
+    lambda_GAE = .95
+    epsilon_clip = .2
 
     random_seed = 0
 
-    agent = PPO(2, 1, actor_lr, critic_lr, gamma, K_epochs, clip)
+    agent = PPO(3, 1, actor_lr, critic_lr, gamma, K_epochs, lambda_GAE, epsilon_clip, action_out_layer="tanh")
 
-    env = gym.make('MountainCarContinuous-v0')
+    env = gym.make('Pendulum-v1')
     
     log_dir = "PPO_out"
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
 
-    log_dir = log_dir + "/mountainCar/"
+    log_dir = log_dir + "/pendulum/"
 
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
@@ -56,7 +57,7 @@ def train():
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-    directory = directory + "/mountainCar/"
+    directory = directory + "/pendulum/"
 
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -69,7 +70,7 @@ def train():
     print("Training start: ", start_time)
 
     log_file = open(log_file_name, "w+")
-    log_file.write("Episode,timestep,reward1,reward2\n")
+    log_file.write("Episode,timestep,reward\n")
 
     print_running_reward = 0
     print_running_episodes = 0
@@ -81,12 +82,13 @@ def train():
     i_episode = 0
     
     while time_step <= max_training_timesteps:
-        state, _ = env.reset()
+        obs, _ = env.reset()
         current_ep_reward = 0
 
+
         for t in range(1, max_ep_len+1):
-            action = agent.get_action(state)
-            state, reward, done, _, _ = env.step(action)
+            action = agent.get_action(obs)
+            obs, reward, done, _, _ = env.step(action)
 
             agent.buffer.rewards.append(reward)
             agent.buffer.is_terminal.append(done)
@@ -95,8 +97,9 @@ def train():
             current_ep_reward += reward
             
             if time_step % update_frequency == 0:
-                value = agent.get_q_value(state)
-                agent.buffer.q_values.append(value)
+                agent.buffer.terminal_values.append(agent.get_value(obs))
+                agent.buffer.terminal_count += 1
+                agent.buffer.is_terminal[-1] = True
 
                 agent.update()
 
@@ -138,6 +141,11 @@ def train():
             log_running_episodes += 1
 
             i_episode += 1
+
+        if len(agent.buffer.is_terminal) > 0:
+            agent.buffer.terminal_values.append(agent.get_value(obs))
+            agent.buffer.terminal_count += 1
+            agent.buffer.is_terminal[-1] = True
 
 if __name__ == "__main__":
     train()

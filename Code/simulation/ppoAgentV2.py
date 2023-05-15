@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.distributions import MultivariateNormal
+from torch.distributions import Normal
 import numpy as np
 import argparse
 parser = argparse.ArgumentParser()
@@ -43,21 +43,42 @@ class ActorCritic(nn.Module):
     def __init__(self,
                  observation_dim,
                  action_dim,
-                 action_std_init):
+                 action_std_init,
+                 action_out_layer="sigmoid"):
 
         super(ActorCritic, self).__init__()
 
+        assert action_out_layer in {"sigmoid", "tanh", "linear"}, "Invalid action output layer type"
+
         self.action_dim = action_dim
-        self.action_var = torch.full((action_dim,), action_std_init * action_std_init).to(device)
-        
-        self.actor = nn.Sequential(
-            nn.Linear(observation_dim, 64),
-            nn.Tanh(),
-            nn.Linear(64,64),
-            nn.Tanh(),
-            nn.Linear(64, action_dim),
-            nn.Sigmoid()
-        )
+        self.action_std = action_std_init
+        if action_out_layer == "sigmoid": 
+            self.actor = nn.Sequential(
+                nn.Linear(observation_dim, 64),
+                nn.Tanh(),
+                nn.Linear(64,64),
+                nn.Tanh(),
+                nn.Linear(64, action_dim),
+                nn.Sigmoid()
+            )
+        elif action_out_layer == "linear":
+            self.actor = nn.Sequential(
+                nn.Linear(observation_dim, 64),
+                nn.Tanh(),
+                nn.Linear(64,64),
+                nn.Tanh(),
+                nn.Linear(64, action_dim)
+            )
+        else:
+            self.actor = nn.Sequential(
+                nn.Linear(observation_dim, 64),
+                nn.Tanh(),
+                nn.Linear(64,64),
+                nn.Tanh(),
+                nn.Linear(64, action_dim),
+                nn.Tanh()
+            )
+
     
         self.critic = nn.Sequential(
             nn.Linear(observation_dim, 64),
@@ -69,42 +90,42 @@ class ActorCritic(nn.Module):
 
 
     def set_action_std(self, new_action_std):
-        self.action_var = torch.full((self.action_dim,), new_action_std * new_action_std).to(device)
+        self.action_std = new_action_std
 
     def forward(self):
         raise NotImplementedError
 
-    def act(self, state):
+    def act(self, obs):
         
-        # Run state through actor network
-        action_mean = self.actor(state)
+        # Run obs through actor network
+        action_mean = self.actor(obs)
 
         # Create a covariance matrix for normal dist
-        covariance = torch.diag(self.action_var).unsqueeze(dim=0)
+        std = self.action_std
 
         # Create and sample distribution for action
-        dist = MultivariateNormal(action_mean, covariance)
+        dist = Normal(action_mean, std)
         action = dist.sample()
 
         # Get log prob (used later for PPO clipping)
-        action_log_prob = dist.log_prob(action)
+        action_log_prob = dist.log_prob(action).sum(axis=-1)
 
-        # Get value for current state
-        val = self.critic(state)
+        # Get value for current obs
+        val = self.critic(obs)
 
         return action.detach(), action_log_prob.detach(), val.detach()
 
-    def evaluate(self, state, action):
+    def evaluate(self, obs, action):
 
-        action_mean = self.actor(state)
+        action_mean = self.actor(obs)
 
-        action_var = self.action_var.expand_as(action_mean)
-        covariance = torch.diag_embed(action_var).to(device)
-        dist = MultivariateNormal(action_mean, covariance)
+        std = self.action_std
+
+        dist = Normal(action_mean, std)
 
         action_log_prob = dist.log_prob(action)
         dist_entropy = dist.entropy()
-        value = self.critic(state)
+        value = self.critic(obs)
 
         return action_log_prob, value, dist_entropy
 
@@ -118,7 +139,8 @@ class PPO:
                  K_epochs,
                  lambda_GAE,
                  epsilon_clip,
-                 action_std_init=0.3):
+                 action_std_init=0.3,
+                 action_out_layer="sigmoid"):
 
         self.gamma = gamma
         self.K_epochs = K_epochs
@@ -128,7 +150,7 @@ class PPO:
 
         self.buffer = Buffer()
 
-        self.policy = ActorCritic(obs_dim, action_dim, action_std_init).to(device)
+        self.policy = ActorCritic(obs_dim, action_dim, action_std_init, action_out_layer).to(device)
 
         self.optimizer = torch.optim.Adam([
             {'params': self.policy.actor.parameters(), 'lr': lr_actor},
