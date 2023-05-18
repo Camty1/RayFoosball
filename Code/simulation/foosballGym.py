@@ -142,9 +142,14 @@ class FoosballEnv(gym.Env):
 
         if (info["ball_z"] < -1):
             terminated = True
+            reward["t1"] -= 1000
+            reward["t2"] -= 1000
 
-        if self._no_movement_counter >= 30:
+        if self._no_movement_counter >= 90:
             terminated = True
+            reward["t1"] -= 1000
+            reward["t2"] -= 1000
+            
 
         return observation, reward, terminated, False, info
 
@@ -379,13 +384,13 @@ class FoosballEnv(gym.Env):
             t1_reward -= gains[4]
         
         # reward_t1 = -reward_t2
-        return {"t1_reward": t1_reward, "t2_reward": -t1_reward}
+        return {"t1": t1_reward, "t2": -t1_reward}
 
     def _handle_action(self, action):
-        t1_pris = action[:4]
-        t1_rot  = action[4:8]
-        t2_pris = action[8:12]
-        t2_rot  = action[12:]
+        t1_pris = self._range_cap(action[:4], self._prismatic_mins, self._prismatic_maxes)
+        t1_rot  = self._range_cap(action[4:8], self._rotation_mins, self._rotation_maxes)
+        t2_pris = self._range_cap(action[8:12], self._prismatic_mins, self._prismatic_maxes)
+        t2_rot  = self._range_cap(action[12:], self._rotation_mins, self._rotation_maxes)
 
         t1_pris_setpoint = self._map(t1_pris, np.zeros(4), np.ones(4), self._prismatic_mins, self._prismatic_maxes)
         t1_rot_setpoint = self._map(t1_rot, np.zeros(4), np.ones(4), self._rotation_mins, self._rotation_maxes)
@@ -410,7 +415,16 @@ class FoosballEnv(gym.Env):
             return 2
 
         return 0
+    
+    ## Limit values in array to specified range given by mins and maxes
+    def _range_cap(self, values, mins, maxes):
+        assert len(values) == len(mins) and len(values) == len(maxes)
 
+        for i in range(len(values)):
+            values[i] = min(values[i], maxes[i])
+            values[i] = max(values[i], mins[i])
+
+        return values
 
     ## Only occurs if render mode is human, and p.GUI is set
     def _render_frame(self):

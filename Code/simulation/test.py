@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-from ppoAgent import PPO
+from ppoAgentV2 import PPO
 import foosballGym as gym
 import time
 
@@ -62,39 +62,35 @@ clip = .2
 
 random_seed = 0
 
-mode = "full_state"
+mode = "just_team"
 
 env = gym.FoosballEnv("human")
+just_goal = False
 
-team1 = PPO(full_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip, action_std)
-
-team2 = PPO(full_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip, action_std)
+team1 = PPO(team_obs, centralized_actions, actor_lr, critic_lr, gamma, K_epochs, clip, action_std)
 
 directory = "PPO_preTrained"
 directory = directory + "/" + mode + "/"
 
 run_num_pretrained = 0
 
-checkpoint_path_t1 = directory + "PPO_{}_{}_{}_t1".format(mode, random_seed, run_num_pretrained)
-checkpoint_path_t2 = directory + "PPO_{}_{}_{}_t2".format(mode, random_seed, run_num_pretrained)
+checkpoint_path = directory + "PPO_{}_{}_{}".format(mode, random_seed, run_num_pretrained)
 
-team1.load(checkpoint_path_t1)
-team2.load(checkpoint_path_t2)
+team1.load(checkpoint_path)
 
 zeros = np.zeros(8)
 
-state, _ = env.reset()
+state, _ = env.reset(None, "striker")
 
 for _ in range(60 * runtime): 
     processed_state = _handle_state(state, mode)
 
     t1_action = team1.get_action(processed_state["t1"])
-    t2_action = team2.get_action(processed_state["t2"])
-    
+    t2_action = np.zeros(8)
     action = np.concatenate((t1_action, t2_action))
 
     state, reward, done, _, _ = env.step(action)
 
     if done:
-        state, _ = env.reset()
+        state, _ = env.reset(None, "striker")
 

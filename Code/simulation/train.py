@@ -135,6 +135,7 @@ def train(mode="full_state"):
     time_step = 0
     i_episode = 0
 
+
     while time_step <= max_training_timesteps:
         state, _ = env.reset()
         current_ep_reward = 0

@@ -52,7 +52,7 @@ clip = .2
 
 random_seed = 0
 
-mode = "full_state"
+mode = "just_team"
 
 env = gym.FoosballEnv("human")
 
