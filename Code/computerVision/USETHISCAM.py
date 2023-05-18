@@ -109,11 +109,13 @@ vs = PiVideoStream().start()
 time.sleep(2.0)
 fps = FPS().start()
 frames = []
+x=0
+y=0
 # loop over some frames...this time using the threaded stream
 while fps._numFrames < 100:
     # grab the frame from the threaded video stream and resize it
     # to have a maximum width of 400 pixels
-    x,y,vx,vy= vs.read()
+    x,y,vx,vy= vs.read(x,y)
     print(x,y,vx,vy)
     # check to see if the frame should be displayed to our screen
     # cv2.imshow("Ron Johnson", frame)
