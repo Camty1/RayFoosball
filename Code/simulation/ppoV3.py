@@ -4,19 +4,6 @@ from torch.optim import Adam
 from torch.distributions import Normal
 import numpy as np
 import argparse
-parser = argparse.ArgumentParser()
-parser.add_argument('-b', action="store_false", help="Flag for running on Babylon")
-args = parser.parse_args()
-
-device = torch.device("cpu")
-
-if args.b:
-
-    if (torch.cuda.is_available()):
-        device = torch.device('cuda')
-        torch.cuda.empty_cache()
-
-    print("Device: " + str(torch.cuda.get_device_name(device)))
 
 
 class Buffer():
@@ -255,7 +242,7 @@ class PPO_2T(PPO):
                  activation=nn.Tanh,
                  action_activation=nn.Identity):
         
-        super().__init__(self, num_observations, num_actions, timesteps_per_epoch, actor_lr, critic_lr, k_epochs, gamma, lambda_GAE, epsilon, num_teams, log_std_init, activation, action_activation)
+        super().__init__(num_observations, num_actions, timesteps_per_epoch, actor_lr, critic_lr, k_epochs, gamma, lambda_GAE, epsilon, num_teams, log_std_init, activation, action_activation)
 
         self.buffer_t1 = Buffer(num_observations, num_actions, timesteps_per_epoch, gamma, lambda_GAE)
         self.buffer_t2 = Buffer(num_observations, num_actions, timesteps_per_epoch, gamma, lambda_GAE)

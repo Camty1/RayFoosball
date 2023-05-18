@@ -7,6 +7,7 @@ import foosballGym as gym
 import os
 import time
 from datetime import datetime
+import argparse 
 
 def train(observation_mode="full", both_teams=False, reset_mode="striker"):
     observation_modes = {"full", "position", "team", "team_position"}
@@ -119,8 +120,8 @@ def train(observation_mode="full", both_teams=False, reset_mode="striker"):
             act, val, log_prob = 0, 0, 0
 
             if both_teams:
-                act_t1, val_t1, log_prob_t1 = agent.policy.step(torch.as_tensor(processed_obs["t1"], dtype=torch.float32))
-                act_t2, val_t2, log_prob_t2 = agent.policy.step(torch.as_tensor(processed_obs["t2"], dtype=torch.float32))
+                act_t1, val_t1, log_prob_t1 = agent.policy.step(torch.as_tensor(processed_obs[0], dtype=torch.float32))
+                act_t2, val_t2, log_prob_t2 = agent.policy.step(torch.as_tensor(processed_obs[1], dtype=torch.float32))
                 act = [act_t1, act_t2]
                 val = [val_t1, val_t2]
                 log_prob = [log_prob_t1, log_prob_t2]
@@ -137,11 +138,11 @@ def train(observation_mode="full", both_teams=False, reset_mode="striker"):
             if both_teams:
                 log_reward_t1 += rew["t1"]
                 print_reward_t1 += rew["t1"]
-                agent.buffer_t1.store(processed_obs["t1"], act[0], rew["t1"], val[0], log_prob[0])
+                agent.buffer_t1.store(processed_obs[0], act[0], rew["t1"], val[0], log_prob[0])
                 
                 log_reward_t2 += rew["t2"]
                 print_reward_t2 += rew["t2"]
-                agent.buffer_t2.store(processed_obs["t2"], act[1], rew["t2"], val[1], log_prob[1])
+                agent.buffer_t2.store(processed_obs[1], act[1], rew["t2"], val[1], log_prob[1])
                 
             else:
                 log_reward_t1 += rew["t1"]
@@ -162,8 +163,8 @@ def train(observation_mode="full", both_teams=False, reset_mode="striker"):
                 if both_teams:
                     if timeout or epoch_ended:
                         processed_obs = handle_obs(obs, observation_mode, both_teams)
-                        _, value_t1, _ = agent.policy.step(torch.as_tensor(processed_obs["t1"], dtype=torch.float32))
-                        _, value_t2, _ = agent.policy.step(torch.as_tensor(processed_obs["t2"], dtype=torch.float32))
+                        _, value_t1, _ = agent.policy.step(torch.as_tensor(processed_obs[0], dtype=torch.float32))
+                        _, value_t2, _ = agent.policy.step(torch.as_tensor(processed_obs[1], dtype=torch.float32))
                         
                         i_episode = 0
                     else:
@@ -291,5 +292,11 @@ def handle_act(act, both_teams):
     return processed_act
 
 if __name__ == "__main__":
-    train()
+    parser = argparse.ArgumentParser(prog="Foosball Training", description="Performs training using foosball environment")
+    parser.add_argument('-o', '--observation', choices=["full", "position", "team", "team_position"], default="full", help="Specify observation mode")
+    parser.add_argument('-t', '--teams', action="store_true", default=False, help="Train using both teams")
+    parser.add_argument('-r', '--reset', choices=["normal", "random", "striker"], default="striker", help="Choose environment reset mode")
+    args = parser.parse_args()
+    print("Observation: " + args.observation, "Both teams: " + str(args.teams), "Reset: " + args.reset)
+    train(args.observation, args.teams, args.reset)
 
