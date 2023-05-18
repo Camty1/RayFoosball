@@ -9,7 +9,7 @@ import time
 from datetime import datetime
 import argparse 
 
-def train(observation_mode="full", both_teams=False, reset_mode="striker"):
+def train(observation_mode="full", both_teams=False, reset_mode="striker", actor_lr=0.0003, critic_lr=0.001):
     observation_modes = {"full", "position", "team", "team_position"}
     reset_modes = {"normal", "random", "striker"}
 
@@ -25,8 +25,6 @@ def train(observation_mode="full", both_teams=False, reset_mode="striker"):
     
     # PPO agent hyperparams (add lambda for GAE?)
     update_frequency = max_ep_len * 4
-    actor_lr = .0003
-    critic_lr = .001
     gamma = .99
     K_epochs = 80
     lambda_GAE = 0.95
@@ -43,22 +41,22 @@ def train(observation_mode="full", both_teams=False, reset_mode="striker"):
     decentralized_actions = 2
     if both_teams:
         if observation_mode == "full":
-            agent = PPO_2T(full_obs, centralized_actions, update_frequency)
+            agent = PPO_2T(full_obs, centralized_actions, update_frequency, actor_lr=actor_lr, critic_lr=critic_lr)
         if observation_mode == "position":
-            agent = PPO_2T(position_obs, centralized_actions, update_frequency)
+            agent = PPO_2T(position_obs, centralized_actions, update_frequency, actor_lr=actor_lr, critic_lr=critic_lr)
         if observation_mode == "team":
-            agent = PPO_2T(team_obs, centralized_actions, update_frequency)
+            agent = PPO_2T(team_obs, centralized_actions, update_frequency, actor_lr=actor_lr, critic_lr=critic_lr)
         if observation_mode == "team_position":
-            agent = PPO_2T(team_position_obs, centralized_actions, update_frequency)
+            agent = PPO_2T(team_position_obs, centralized_actions, update_frequency, actor_lr=actor_lr, critic_lr=critic_lr)
     else:
         if observation_mode == "full":
-            agent = PPO(full_obs, centralized_actions, update_frequency)
+            agent = PPO(full_obs, centralized_actions, update_frequency, actor_lr=actor_lr, critic_lr=critic_lr)
         if observation_mode == "position":
-            agent = PPO(position_obs, centralized_actions, update_frequency)
+            agent = PPO(position_obs, centralized_actions, update_frequency, actor_lr=actor_lr, critic_lr=critic_lr)
         if observation_mode == "team":
-            agent = PPO(team_obs, centralized_actions, update_frequency)
+            agent = PPO(team_obs, centralized_actions, update_frequency, actor_lr=actor_lr, critic_lr=critic_lr)
         if observation_mode == "team_position":
-            agent = PPO(team_position_obs, centralized_actions, update_frequency)
+            agent = PPO(team_position_obs, centralized_actions, update_frequency, actor_lr=actor_lr, critic_lr=critic_lr)
 
     env = gym.FoosballEnv()
     
@@ -296,7 +294,9 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--observation', choices=["full", "position", "team", "team_position"], default="full", help="Specify observation mode")
     parser.add_argument('-t', '--teams', action="store_true", default=False, help="Train using both teams")
     parser.add_argument('-r', '--reset', choices=["normal", "random", "striker"], default="striker", help="Choose environment reset mode")
+    parser.add_argument("-a", "--actor_lr", default=0.0003, help="Actor learning rate")
+    parser.add_argument("-c", "--critic_lr", default=0.001, help="Critic learning rate")
     args = parser.parse_args()
-    print("Observation: " + args.observation, "Both teams: " + str(args.teams), "Reset: " + args.reset)
-    train(args.observation, args.teams, args.reset)
+    print("Observation: " + args.observation, "| Both teams: " + str(args.teams), "| Reset: " + args.reset, "| Actor_lr: " + args.actor_lr, "| Critic_lr: " + args.critic_lr)
+    train(args.observation, args.teams, args.reset, actor_lr=float(args.actor_lr), critic_lr=float(args.critic_lr))
 
